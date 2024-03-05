@@ -1,4 +1,4 @@
-package ru.habrahabr;
+package by.lida.pogran.dbui;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.Label?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="by.lida.pogran.dbui.ui.ScriptController">
+    <stylesheets>
+        <String fx:value="/style.css"/>
+    </stylesheets>
+    <StackPane>
+        <VBox>
+            <GridPane vgap="10" hgap="10">
+                <ComboBox fx:id="scripts" GridPane.columnIndex="11" GridPane.rowIndex="5" promptText="role">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="update"/>
+                            <String fx:value="create"/>
+                            <String fx:value="select"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="select"/>
+                    </value>
+                </ComboBox>
+                <StackPane GridPane.columnIndex="11" GridPane.rowIndex="6" minWidth="50">
+                    <Button fx:id="startScript" onAction="#startScript" defaultButton="true"
+                            mnemonicParsing="false" text="Выполнить скрипт"/>
+                </StackPane>
+            </GridPane>
+        </VBox>
+    </StackPane>
+    <Label fx:id="label"  alignment="BASELINE_LEFT"/>
+</AnchorPane>

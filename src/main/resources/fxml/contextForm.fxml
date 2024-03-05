@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="by.lida.pogran.dbui.ui.ContextController">
+    <stylesheets>
+        <String fx:value="/style.css" />
+    </stylesheets>
+    <StackPane>
+        <VBox>
+            <GridPane vgap="10" hgap="5">
+                <Label text="url" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="username" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label text="password" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <Label text="driver-class-name:" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <Label text="database-platform" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <Label text="database" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                <TextField fx:id="url" promptText="Use &quot;sesame&quot; to login"
+                           text="jdbc:postgresql://localhost:5432/board"
+                           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <TextField fx:id="username" promptText="Use &quot;sesame&quot; to login" text="postgres"
+                           GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <TextField fx:id="password" promptText="Use &quot;sesame&quot; to login" text="123"
+                           GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                <TextField fx:id="driverClassName" promptText="Use &quot;sesame&quot; to login"
+                           text="org.postgresql.Driver"
+                           GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                <TextField fx:id="dialect" promptText="Use &quot;sesame&quot; to login"
+                           text="org.hibernate.dialect.PostgreSQLDialect"
+                           GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                <TextField fx:id="database" promptText="Use &quot;sesame&quot; to login" text="postgresql"
+                           GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+
+                <ComboBox fx:id="roles" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="role" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="admin"/>
+                            <String fx:value="user"/>
+                            <String fx:value="moderator"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="user"/>
+                    </value>
+                </ComboBox>
+                <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" onAction="#connectToDb"
+                        mnemonicParsing="false" text="Подключиться к bd"
+                        StackPane.alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+            </GridPane>
+        </VBox>
+    </StackPane>
+</AnchorPane>
