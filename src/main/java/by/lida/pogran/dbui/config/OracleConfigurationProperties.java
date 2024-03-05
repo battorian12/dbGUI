@@ -1,37 +1,104 @@
 package by.lida.pogran.dbui.config;
 
-
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.stereotype.Component;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-
 @Component
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class OracleConfigurationProperties {
 
-    private String host;
-    private String username;
-    private String password;
-    private String url;
-    private String role;
+    private static volatile OracleConfigurationProperties instance;
+    private static String host;
+    private static String port;
+    private static String networkProtocol;
+    private static String serviceName;
+    private static String user;
+    private static String password;
+    private static String DRIVER_TYPE = "thin";
 
-    public Connection getDataSource() throws SQLException {
+
+    public static OracleConfigurationProperties getInstance() {
+        OracleConfigurationProperties localInstance = instance;
+        if (localInstance == null) {
+            synchronized (OracleConfigurationProperties.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new OracleConfigurationProperties();
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public Connection getDataSourceConnection() throws SQLException {
         OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setUser(username);
+        dataSource.setNetworkProtocol(networkProtocol);
+        dataSource.setPortNumber(Integer.parseInt(port));
+        dataSource.setServiceName(serviceName);
+        dataSource.setServerName(host);
+        dataSource.setDriverType(DRIVER_TYPE);
+//        dataSource.setConnectionProperty();
         dataSource.setPassword(password);
-        dataSource.setRoleName(role);
-//        dataSource.setURL("jdbc:oracle:thin:@//localhost:11521/ORCLPDB1");
-        dataSource.setURL(url);
-        dataSource.setImplicitCachingEnabled(true);
+        dataSource.setUser(user);
         return dataSource.getConnection();
     }
 
+    public static void setInstance(OracleConfigurationProperties instance) {
+        OracleConfigurationProperties.instance = instance;
+    }
+
+    public static String getHost() {
+        return host;
+    }
+
+    public static void setHost(String host) {
+        OracleConfigurationProperties.host = host;
+    }
+
+    public static String getPort() {
+        return port;
+    }
+
+    public static void setPort(String port) {
+        OracleConfigurationProperties.port = port;
+    }
+
+    public static String getServiceName() {
+        return serviceName;
+    }
+
+    public static void setServiceName(String serviceName) {
+        OracleConfigurationProperties.serviceName = serviceName;
+    }
+
+    public static String getUser() {
+        return user;
+    }
+
+    public static void setUser(String user) {
+        OracleConfigurationProperties.user = user;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        OracleConfigurationProperties.password = password;
+    }
+
+
+    public static String getNetworkProtocol() {
+        return networkProtocol;
+    }
+
+    public static void setNetworkProtocol(String networkProtocol) {
+        OracleConfigurationProperties.networkProtocol = networkProtocol;
+    }
 }

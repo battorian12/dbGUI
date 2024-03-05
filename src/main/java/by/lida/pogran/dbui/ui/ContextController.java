@@ -1,41 +1,55 @@
 package by.lida.pogran.dbui.ui;
 
-import by.lida.pogran.dbui.config.CustomDataSourceConfiguration;
+import by.lida.pogran.dbui.config.OracleConfigurationProperties;
+import by.lida.pogran.dbui.entity.SQLScript;
+import by.lida.pogran.dbui.entity.ServiceName;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ContextController {
 
     @FXML
-    public TextField dialect;
+    public TextField host;
     @FXML
-    public TextField driverClassName;
+    public TextField port;
     @FXML
-    public TextField database;
+    public TextField serviceName;
     @FXML
-    public TextField url;
+    public TextField networkProtocol;
     @FXML
-    private TextField username;
+    public TextField user;
     @FXML
-    private TextField password;
+    public ComboBox<String> serviceNames;
+    @FXML
+    private PasswordField password;
+
     @FXML
     private Button connectToDb;
     @FXML
     private ComboBox<String> roles;
     @FXML
     private Label label;
+    @FXML
+    private Tooltip toolTip;
 
     @FXML
     public void initialize() {
+        serviceNames.setOnAction((e) -> {
+            serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
+            host.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
+        });
+        serviceNames.getItems().addAll(Arrays.stream(ServiceName.values()).map(ServiceName::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
     }
 
@@ -49,21 +63,22 @@ public class ContextController {
 
     @FXML
     public void connectToDb() {
-        String usernameText = username.getText();
-        String urlText = url.getText();
+        String hostText = host.getText();
+        String networkProtocolText = networkProtocol.getText();
+        String portText = port.getText();
         String passwordText = password.getText();
-        String driverClass = driverClassName.getText();
-        String databaseText = database.getText();
-        String dialectText = dialect.getText();
-        String rolesValue = roles.getValue();
+        String serviceNameText = serviceName.getText();
+        String userText = user.getText();
 
-        CustomDataSourceConfiguration.setUrl(urlText);
-        CustomDataSourceConfiguration.setDriverClassName(driverClass);
-        CustomDataSourceConfiguration.setPassword(passwordText);
-        CustomDataSourceConfiguration.setUsername(usernameText);
+        OracleConfigurationProperties.setHost(hostText);
+        OracleConfigurationProperties.setPort(portText);
+        OracleConfigurationProperties.setNetworkProtocol(networkProtocolText);
+        OracleConfigurationProperties.setServiceName(serviceNameText);
+        OracleConfigurationProperties.setPassword(passwordText);
+        OracleConfigurationProperties.setUser(userText);
 
         try {
-            Connection connection = CustomDataSourceConfiguration.getInstance().customDataSourceConnection();
+            Connection connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
             if (!connection.isClosed()) {
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
