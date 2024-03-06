@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
@@ -13,25 +12,25 @@
     <StackPane>
         <VBox>
             <GridPane vgap="10" hgap="5">
-                <Label text="host" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <Label text="networkProtocol" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <Label text="port" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                <Label text="serviceName" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                <Label text="user" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                <Label text="password" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                <TextField fx:id="host" promptText="Use &quot;host&quot; to connect" text="10.17.3.33"
-                           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Label text="Host" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                <Label text="NetworkProtocol" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                <Label text="Port" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+                <Label text="ServiceName" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                <Label text="user" GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+                <Label text="password" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+                <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" text="10.17.3.33"
+                           GridPane.columnIndex="4" GridPane.rowIndex="2"/>
                 <TextField fx:id="networkProtocol" promptText="Use &quot;networkProtocol&quot; to connect" text="TCP"
-                           GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <TextField fx:id="port" promptText="Use &quot;port&quot; to connect" text="1521"
-                           GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                           GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" text="1521"
+                           GridPane.columnIndex="4" GridPane.rowIndex="4"/>
                 <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD"
-                           GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-                <TextField fx:id="user" promptText="Use &quot;user&quot; to connect" text=""
-                           GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                <PasswordField fx:id="password" promptText="Use &quot;password&quot; to connect"
-                           GridPane.columnIndex="2" GridPane.rowIndex="6"/>
-                <ComboBox fx:id="serviceNames" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="serviceNames" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                           GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                <TextField fx:id="user" promptText="Enter &quot;user&quot; to connect"
+                           GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+                <PasswordField fx:id="password" promptText="Enter &quot;password&quot; to connect"
+                           GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+                <ComboBox fx:id="serviceNames" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="serviceNames" GridPane.columnIndex="4" GridPane.rowIndex="8">
                     <items>
 
                     </items>
@@ -41,7 +40,7 @@
                 </ComboBox>
                 <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" onAction="#connectToDb"
                         mnemonicParsing="false" text="Подключиться к bd"
-                        StackPane.alignment="CENTER_RIGHT" GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+                        StackPane.alignment="CENTER_RIGHT" GridPane.columnIndex="5" GridPane.rowIndex="8"/>
             </GridPane>
         </VBox>
     </StackPane>

@@ -3,7 +3,7 @@
  */
 .root {
     -fx-background-color: #d3d2d2;
-    -fx-font-family: "Roboto Light", Helvetica, Arial, sans-serif;
+    -fx-font-family: "Roboto Regular 400 ", sans-serif;
 }
 
 /**
@@ -14,7 +14,7 @@
 .vbox,
 .pane,
 .scroll-pane {
-    -fx-font-family: "Roboto Light", Helvetica, Arial, sans-serif;
+    -fx-font-family: "Roboto Regular 400 ", Helvetica, Arial, sans-serif;
     -fx-font-size: 14px;
     -fx-background-color: transparent;
 }
@@ -30,7 +30,7 @@
 .list-cell,
 .text-area,
 .text-field {
-    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-family: "Roboto Regular 400 ", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: #333333;
 }
@@ -49,6 +49,8 @@
 
 .button {
     -fx-padding: 6px 12px 6px 12px;
+    -fx-font-family: "Roboto Light";
+
 }
 
 /*.button:hover {*/
