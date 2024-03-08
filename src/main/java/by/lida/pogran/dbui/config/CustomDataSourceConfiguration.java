@@ -2,7 +2,6 @@ package by.lida.pogran.dbui.config;
 
 import lombok.NoArgsConstructor;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,13 +28,17 @@ public class CustomDataSourceConfiguration {
         return localInstance;
     }
 
-    public Connection customDataSourceConnection() throws SQLException {
+    public Connection customDataSourceConnection() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(driverClassName);
         dataSourceBuilder.url(url);
         dataSourceBuilder.username(username);
         dataSourceBuilder.password(password);
-        return dataSourceBuilder.build().getConnection();
+        try {
+            return dataSourceBuilder.build().getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static String getDriverClassName() {

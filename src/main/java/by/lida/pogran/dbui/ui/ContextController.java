@@ -1,9 +1,7 @@
 package by.lida.pogran.dbui.ui;
 
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
-import by.lida.pogran.dbui.entity.SQLScript;
 import by.lida.pogran.dbui.entity.ServiceName;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,16 +51,10 @@ public class ContextController {
         connectToDb.getStyleClass().add("button");
     }
 
-    /**
-     * Check authorization credentials.
-     * <p>
-     * If accepted, return a sessionID for the authorized session
-     * otherwise, return null.
-     */
-
 
     @FXML
     public void connectToDb() {
+        Connection connection = null;
         String hostText = host.getText();
         String networkProtocolText = networkProtocol.getText();
         String portText = port.getText();
@@ -78,7 +70,7 @@ public class ContextController {
         OracleConfigurationProperties.setUser(userText);
 
         try {
-            Connection connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
+            connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
             if (!connection.isClosed()) {
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -93,8 +85,28 @@ public class ContextController {
                 stage.setScene(new Scene(parent));
                 stage.show();
             }
-        } catch (SQLException | IOException e) {
+            connection.commit();
+        } catch (SQLException e) {
+            // Handle exceptions, log errors, and rollback the transaction on failure
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    rollbackException.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            // Close the connection in a finally block
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
         }
     }
 }

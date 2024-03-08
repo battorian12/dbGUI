@@ -21,6 +21,7 @@ public class OracleConfigurationProperties {
     private static String user;
     private static String password;
     private static String DRIVER_TYPE = "thin";
+    private static Connection connection;
 
 
     public static OracleConfigurationProperties getInstance() {
@@ -36,21 +37,36 @@ public class OracleConfigurationProperties {
         return localInstance;
     }
 
-    public Connection getDataSourceConnection() throws SQLException {
-        OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setNetworkProtocol(networkProtocol);
-        dataSource.setPortNumber(Integer.parseInt(port));
-        dataSource.setServiceName(serviceName);
-        dataSource.setServerName(host);
-        dataSource.setDriverType(DRIVER_TYPE);
+
+    public Connection getDataSourceConnection() {
+        try {
+            OracleDataSource dataSource = new OracleDataSource();
+            dataSource.setConnectionProperty("allowMultiQueries", String.valueOf(true));
+            dataSource.setNetworkProtocol(networkProtocol);
+            dataSource.setPortNumber(Integer.parseInt(port));
+            dataSource.setServiceName(serviceName);
+            dataSource.setServerName(host);
+            dataSource.setDriverType(DRIVER_TYPE);
 //        dataSource.setConnectionProperty();
-        dataSource.setPassword(password);
-        dataSource.setUser(user);
-        return dataSource.getConnection();
+            dataSource.setPassword(password);
+            dataSource.setUser(user);
+            connection = dataSource.getConnection();
+            return connection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void setInstance(OracleConfigurationProperties instance) {
         OracleConfigurationProperties.instance = instance;
+    }
+
+    public static Connection getConnection() {
+        return connection;
+    }
+
+    public static void setConnection(Connection connection) {
+        OracleConfigurationProperties.connection = connection;
     }
 
     public static String getHost() {

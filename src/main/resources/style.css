@@ -4,6 +4,7 @@
 .root {
     -fx-background-color: #d3d2d2;
     -fx-font-family: "Roboto Regular 400 ", sans-serif;
+    -fx-background-radius: 10;
 }
 
 /**

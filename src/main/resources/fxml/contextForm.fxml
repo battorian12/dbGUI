@@ -27,9 +27,9 @@
                 <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD"
                            GridPane.columnIndex="4" GridPane.rowIndex="5"/>
                 <TextField fx:id="user" promptText="Enter &quot;user&quot; to connect"
-                           GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+                           GridPane.columnIndex="4" GridPane.rowIndex="6" text="M_BORDER" />
                 <PasswordField fx:id="password" promptText="Enter &quot;password&quot; to connect"
-                           GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+                           GridPane.columnIndex="4" GridPane.rowIndex="7" text="border18pogo" />
                 <ComboBox fx:id="serviceNames" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="serviceNames" GridPane.columnIndex="4" GridPane.rowIndex="8">
                     <items>
 
