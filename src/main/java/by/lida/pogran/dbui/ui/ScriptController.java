@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ScriptController {
@@ -30,7 +29,7 @@ public class ScriptController {
     @FXML
     public void startScript() {
         String value = scripts.getValue();
-        Set<String> scripts = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).flatMap(b -> b.getScript().stream()).collect(Collectors.toSet());
+        SQLScript selected = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).findFirst().get();
 //        String scriptPath = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).map(SQLScript::getPath).findFirst().get();
 //        try (BufferedReader br = new BufferedReader(new FileReader(scriptPath))) {
 //            StringBuilder sb = new StringBuilder();
@@ -49,26 +48,16 @@ public class ScriptController {
         try (Connection connection = OracleConfigurationProperties.getConnection()) {
             connection.setAutoCommit(false);
 
-            scripts.forEach(a -> {
-                try (PreparedStatement mergeUserStatement = connection.prepareStatement(a)) {
-                    try {
-                        mergeUserStatement.executeUpdate();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            try (PreparedStatement mergeStatements = connection.prepareStatement(selected.getScript())) {
+                mergeStatements.executeUpdate();
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Query Status:");
-            alert.setContentText(value + " успешно выполнен\n");
+            alert.setContentText(selected.getName() + " успешно выполнен\n");
             alert.showAndWait();
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 }

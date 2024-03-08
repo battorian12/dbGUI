@@ -51,6 +51,12 @@ public class ContextController {
         connectToDb.getStyleClass().add("button");
     }
 
+    /**
+     * Check authorization credentials.
+     * <p>
+     * If accepted, return a sessionID for the authorized session
+     * otherwise, return null.
+     */
 
     @FXML
     public void connectToDb() {
