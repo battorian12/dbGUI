@@ -53,10 +53,6 @@ public class ScriptController {
                 try (PreparedStatement mergeUserStatement = connection.prepareStatement(a)) {
                     try {
                         mergeUserStatement.executeUpdate();
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Query Status:");
-                        alert.setContentText(value + " успешно выполнен\n");
-                        alert.showAndWait();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -64,6 +60,10 @@ public class ScriptController {
                     throw new RuntimeException(e);
                 }
             });
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Query Status:");
+            alert.setContentText(value + " успешно выполнен\n");
+            alert.showAndWait();
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
