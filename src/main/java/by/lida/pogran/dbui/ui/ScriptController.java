@@ -1,19 +1,17 @@
 package by.lida.pogran.dbui.ui;
 
-import by.lida.pogran.dbui.config.CustomDataSourceConfiguration;
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.SQLScript;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ScriptController {
@@ -31,9 +29,8 @@ public class ScriptController {
 
     @FXML
     public void startScript() {
-        Connection connection = null;
         String value = scripts.getValue();
-        SQLScript selected = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).findFirst().get();
+        Set<String> scripts = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).flatMap(b -> b.getScript().stream()).collect(Collectors.toSet());
 //        String scriptPath = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).map(SQLScript::getPath).findFirst().get();
 //        try (BufferedReader br = new BufferedReader(new FileReader(scriptPath))) {
 //            StringBuilder sb = new StringBuilder();
@@ -49,42 +46,29 @@ public class ScriptController {
 //            throw new RuntimeException(e);
 //        }
 
-        try {
-            connection = OracleConfigurationProperties.getConnection();
+        try (Connection connection = OracleConfigurationProperties.getConnection()) {
             connection.setAutoCommit(false);
-            PreparedStatement callableStatement = connection.prepareStatement(selected.getScript());
-            callableStatement.executeBatch();
-            connection.commit();
-            boolean execute = callableStatement.execute();
-            if (execute) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Query Status:");
-                alert.setContentText(selected.getName() + " успешно выполнен\n");
-                alert.showAndWait();
-            }
-            ResultSet res = callableStatement.getResultSet();
-            while (res.next()) {
 
-            }
+            scripts.forEach(a -> {
+                try (PreparedStatement mergeUserStatement = connection.prepareStatement(a)) {
+                    try {
+                        mergeUserStatement.executeUpdate();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Query Status:");
+                        alert.setContentText(value + " успешно выполнен\n");
+                        alert.showAndWait();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            connection.commit();
         } catch (SQLException e) {
-            // Handle exceptions, log errors, and rollback the transaction on failure
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    rollbackException.printStackTrace();
-                }
-            }
             e.printStackTrace();
-        } finally {
-            // Close the connection in a finally block
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException closeException) {
-                    closeException.printStackTrace();
-                }
-            }
         }
+
+
     }
 }
