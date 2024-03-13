@@ -38,13 +38,13 @@ public class ScriptController {
             try (PreparedStatement mergeStatements = connection.prepareStatement(selected.getScript())) {
                 mergeStatements.executeUpdate();
             }
+            connection.commit();
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setTitle("Query Status:");
             alert.setContentText(selected.getName() + " успешно выполнен\n");
             alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             alert.showAndWait();
-            connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
