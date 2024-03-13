@@ -41,7 +41,6 @@ public class OracleConfigurationProperties {
     public Connection getDataSourceConnection() {
         try {
             OracleDataSource dataSource = new OracleDataSource();
-            dataSource.setConnectionProperty("allowMultiQueries", String.valueOf(true));
             dataSource.setNetworkProtocol(networkProtocol);
             dataSource.setPortNumber(Integer.parseInt(port));
             dataSource.setServiceName(serviceName);
