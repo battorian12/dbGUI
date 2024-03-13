@@ -1,6 +1,5 @@
 package by.lida.pogran.dbui;
 
-import by.lida.pogran.dbui.config.CustomDataSourceConfiguration;
 import by.lida.pogran.dbui.ui.ContextController;
 import by.lida.pogran.dbui.ui.ScriptController;
 import javafx.fxml.FXMLLoader;

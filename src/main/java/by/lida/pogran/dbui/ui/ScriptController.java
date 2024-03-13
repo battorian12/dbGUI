@@ -5,6 +5,7 @@ import by.lida.pogran.dbui.entity.SQLScript;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 
 import java.sql.Connection;
@@ -30,20 +31,6 @@ public class ScriptController {
     public void startScript() {
         String value = scripts.getValue();
         SQLScript selected = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).findFirst().get();
-//        String scriptPath = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).map(SQLScript::getPath).findFirst().get();
-//        try (BufferedReader br = new BufferedReader(new FileReader(scriptPath))) {
-//            StringBuilder sb = new StringBuilder();
-//            String line = br.readLine();
-//
-//            while (line != null) {
-//                sb.append(line);
-//                sb.append(System.lineSeparator());
-//                line = br.readLine();
-//            }
-//            everything = sb.toString();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
 
         try (Connection connection = OracleConfigurationProperties.getConnection()) {
             connection.setAutoCommit(false);
@@ -51,9 +38,11 @@ public class ScriptController {
             try (PreparedStatement mergeStatements = connection.prepareStatement(selected.getScript())) {
                 mergeStatements.executeUpdate();
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setTitle("Query Status:");
             alert.setContentText(selected.getName() + " успешно выполнен\n");
+            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
             alert.showAndWait();
             connection.commit();
         } catch (SQLException e) {

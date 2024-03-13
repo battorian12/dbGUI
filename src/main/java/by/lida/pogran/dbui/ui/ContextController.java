@@ -2,12 +2,14 @@ package by.lida.pogran.dbui.ui;
 
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.ServiceName;
+import com.jfoenix.controls.JFXDecorator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -51,12 +53,6 @@ public class ContextController {
         connectToDb.getStyleClass().add("button");
     }
 
-    /**
-     * Check authorization credentials.
-     * <p>
-     * If accepted, return a sessionID for the authorized session
-     * otherwise, return null.
-     */
 
     @FXML
     public void connectToDb() {
@@ -78,17 +74,27 @@ public class ContextController {
         try {
             connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
             if (!connection.isClosed()) {
+                Stage stage = new Stage();
 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Registration Status:");
-                alert.setContentText("You have successfully connected to db!");
-                alert.showAndWait();
                 //load the fxml need here!
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
                 Parent parent = loader.load();
-                Stage stage = new Stage();
+                String uri = getClass().getResource("/style.css").toExternalForm();
+                JFXDecorator decorator = new JFXDecorator(stage , parent);
+                Scene scene = new Scene(decorator);
                 stage.setTitle("Scrip Window");
-                stage.setScene(new Scene(parent));
+                stage.setScene(scene);
+                scene.getStylesheets().add(uri) ;
+
+
+                Alert alert = new Alert(Alert.AlertType.NONE);
+                alert.initStyle(StageStyle.TRANSPARENT);
+                alert.setTitle("Registration Status:");
+                alert.setContentText("You have successfully connected to db!");
+                alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                alert.showAndWait();
+
                 stage.show();
             }
             connection.commit();
