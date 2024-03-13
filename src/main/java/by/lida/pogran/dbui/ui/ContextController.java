@@ -110,15 +110,6 @@ public class ContextController {
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            // Close the connection in a finally block
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException closeException) {
-                    closeException.printStackTrace();
-                }
-            }
         }
     }
 }
