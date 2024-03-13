@@ -29,7 +29,7 @@
                 <TextField fx:id="user" promptText="Enter &quot;user&quot; to connect"
                            GridPane.columnIndex="4" GridPane.rowIndex="6" text="M_BORDER" />
                 <PasswordField fx:id="password" promptText="Enter &quot;password&quot; to connect"
-                           GridPane.columnIndex="4" GridPane.rowIndex="7" text="border18pogo" />
+                           GridPane.columnIndex="4" GridPane.rowIndex="7" text="luna$18pogo" />
                 <ComboBox fx:id="serviceNames" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="serviceNames" GridPane.columnIndex="4" GridPane.rowIndex="8">
                     <items>
 
