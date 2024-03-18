@@ -2,10 +2,11 @@ package by.lida.pogran.dbui.config;
 
 import lombok.NoArgsConstructor;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Configuration;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
+@Configuration
 @NoArgsConstructor
 public class CustomDataSourceConfiguration {
 
@@ -28,17 +29,13 @@ public class CustomDataSourceConfiguration {
         return localInstance;
     }
 
-    public Connection customDataSourceConnection() {
+    public DataSource getDatasource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(driverClassName);
         dataSourceBuilder.url(url);
         dataSourceBuilder.username(username);
         dataSourceBuilder.password(password);
-        try {
-            return dataSourceBuilder.build().getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return dataSourceBuilder.build();
     }
 
     public static String getDriverClassName() {
