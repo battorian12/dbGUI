@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -54,6 +55,7 @@ public class ContextController {
     }
 
 
+    @Transactional
     @FXML
     public void connectToDb() {
         Connection connection = null;
@@ -70,9 +72,15 @@ public class ContextController {
         OracleConfigurationProperties.setServiceName(serviceNameText);
         OracleConfigurationProperties.setPassword(passwordText);
         OracleConfigurationProperties.setUser(userText);
+//        CustomDataSourceConfiguration.setUsername("postgres");
+//        CustomDataSourceConfiguration.setPassword("123");
+//        CustomDataSourceConfiguration.setUrl("jdbc:postgresql://localhost:5432/board");
+//        CustomDataSourceConfiguration.setDriverClassName("org.postgresql.Driver");
 
         try {
-            connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
+            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
+//            connection = CustomDataSourceConfiguration.getInstance().getDatasource().getConnection();
+
             if (!connection.isClosed()) {
                 Stage stage = new Stage();
 
@@ -80,11 +88,11 @@ public class ContextController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
                 Parent parent = loader.load();
                 String uri = getClass().getResource("/style.css").toExternalForm();
-                JFXDecorator decorator = new JFXDecorator(stage , parent);
+                JFXDecorator decorator = new JFXDecorator(stage, parent);
                 Scene scene = new Scene(decorator);
                 stage.setTitle("Scrip Window");
                 stage.setScene(scene);
-                scene.getStylesheets().add(uri) ;
+                scene.getStylesheets().add(uri);
 
 
                 Alert alert = new Alert(Alert.AlertType.NONE);
@@ -97,16 +105,7 @@ public class ContextController {
 
                 stage.show();
             }
-            connection.commit();
         } catch (SQLException e) {
-            // Handle exceptions, log errors, and rollback the transaction on failure
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    rollbackException.printStackTrace();
-                }
-            }
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);

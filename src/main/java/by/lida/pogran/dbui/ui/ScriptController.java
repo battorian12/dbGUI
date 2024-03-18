@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,18 +28,19 @@ public class ScriptController {
 //        scripts.setOnAction(event -> label.setText("Скрипт для выполненения: \n"+Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(scripts.getValue())).findFirst().get().getScript()));
     }
 
+    @Transactional
     @FXML
     public void startScript() {
         String value = scripts.getValue();
         SQLScript selected = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).findFirst().get();
 
-        try (Connection connection = OracleConfigurationProperties.getConnection()) {
-            connection.setAutoCommit(false);
+        try (Connection connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection()) {
 
-            try (PreparedStatement mergeStatements = connection.prepareStatement(selected.getScript())) {
+            String s = connection.nativeSQL(selected.getScript());
+            try (PreparedStatement mergeStatements = connection.prepareStatement(s)) {
                 mergeStatements.executeUpdate();
             }
-            connection.commit();
+
             Alert alert = new Alert(Alert.AlertType.NONE);
             alert.setTitle("Query Status:");
             alert.setContentText(selected.getName() + " успешно выполнен\n");
