@@ -58,7 +58,7 @@ public class ContextController {
     @Transactional
     @FXML
     public void connectToDb() {
-        Connection connection = null;
+        Connection connection;
         String hostText = host.getText();
         String networkProtocolText = networkProtocol.getText();
         String portText = port.getText();
@@ -79,7 +79,6 @@ public class ContextController {
 
         try {
             connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
-//            connection = CustomDataSourceConfiguration.getInstance().getDatasource().getConnection();
 
             if (!connection.isClosed()) {
                 Stage stage = new Stage();
@@ -105,9 +104,7 @@ public class ContextController {
 
                 stage.show();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

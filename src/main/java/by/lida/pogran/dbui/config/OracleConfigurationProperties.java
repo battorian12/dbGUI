@@ -54,10 +54,6 @@ public class OracleConfigurationProperties {
         }
     }
 
-    public static void setInstance(OracleConfigurationProperties instance) {
-        OracleConfigurationProperties.instance = instance;
-    }
-
     public static Connection getConnection() {
         return connection;
     }
