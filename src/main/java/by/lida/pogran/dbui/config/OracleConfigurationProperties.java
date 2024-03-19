@@ -3,12 +3,13 @@ package by.lida.pogran.dbui.config;
 import lombok.Getter;
 import lombok.Setter;
 import oracle.jdbc.datasource.impl.OracleDataSource;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@Component
+@Configuration
 @Getter
 @Setter
 public class OracleConfigurationProperties {
@@ -37,28 +38,20 @@ public class OracleConfigurationProperties {
         return localInstance;
     }
 
-
-    public Connection getDataSourceConnection() {
+    public DataSource getDataSource() {
         try {
             OracleDataSource dataSource = new OracleDataSource();
-            dataSource.setConnectionProperty("allowMultiQueries", String.valueOf(true));
             dataSource.setNetworkProtocol(networkProtocol);
             dataSource.setPortNumber(Integer.parseInt(port));
             dataSource.setServiceName(serviceName);
             dataSource.setServerName(host);
             dataSource.setDriverType(DRIVER_TYPE);
-//        dataSource.setConnectionProperty();
             dataSource.setPassword(password);
             dataSource.setUser(user);
-            connection = dataSource.getConnection();
-            return connection;
+            return dataSource;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void setInstance(OracleConfigurationProperties instance) {
-        OracleConfigurationProperties.instance = instance;
     }
 
     public static Connection getConnection() {

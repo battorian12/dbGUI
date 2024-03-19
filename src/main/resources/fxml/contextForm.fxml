@@ -3,34 +3,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+            prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" stylesheets="/style.css"
             fx:controller="by.lida.pogran.dbui.ui.ContextController">
     <stylesheets>
         <String fx:value="/style.css" />
     </stylesheets>
-    <StackPane>
+    <StackPane stylesheets="/style.css">
         <VBox>
-            <GridPane vgap="10" hgap="5">
-                <Label text="Host" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                <Label text="NetworkProtocol" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                <Label text="Port" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                <Label text="ServiceName" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                <Label text="user" GridPane.columnIndex="3" GridPane.rowIndex="6"/>
-                <Label text="password" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+            <GridPane vgap="12" hgap="20">
+                <Label text="Host" GridPane.columnIndex="14" GridPane.rowIndex="12"/>
+                <Label text="NetworkProtocol" GridPane.columnIndex="14" GridPane.rowIndex="13"/>
+                <Label text="Port" GridPane.columnIndex="14" GridPane.rowIndex="14"/>
+                <Label text="ServiceName" GridPane.columnIndex="14" GridPane.rowIndex="15"/>
+                <Label text="User" GridPane.columnIndex="14" GridPane.rowIndex="16"/>
+                <Label text="Password" GridPane.columnIndex="14" GridPane.rowIndex="17"/>
                 <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" text="10.17.3.33"
-                           GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+                           GridPane.columnIndex="15" GridPane.rowIndex="12"/>
                 <TextField fx:id="networkProtocol" promptText="Use &quot;networkProtocol&quot; to connect" text="TCP"
-                           GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                           GridPane.columnIndex="15" GridPane.rowIndex="13" />
                 <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" text="1521"
-                           GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+                           GridPane.columnIndex="15" GridPane.rowIndex="14"/>
                 <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD"
-                           GridPane.columnIndex="4" GridPane.rowIndex="5"/>
-                <TextField fx:id="user" promptText="Enter &quot;user&quot; to connect"
-                           GridPane.columnIndex="4" GridPane.rowIndex="6" text="M_BORDER" />
-                <PasswordField fx:id="password" promptText="Enter &quot;password&quot; to connect"
-                           GridPane.columnIndex="4" GridPane.rowIndex="7" text="border18pogo" />
-                <ComboBox fx:id="serviceNames" layoutX="15.0" layoutY="33.0" prefWidth="110.0" promptText="serviceNames" GridPane.columnIndex="4" GridPane.rowIndex="8">
+                           GridPane.columnIndex="15" GridPane.rowIndex="15"/>
+                <TextField fx:id="user" promptText="Enter &quot;User&quot; to connect"
+                           GridPane.columnIndex="15" GridPane.rowIndex="16" text="M_BORDER" />
+                <PasswordField fx:id="password" promptText="Enter &quot;Password&quot; to connect"
+                           GridPane.columnIndex="15" GridPane.rowIndex="17" text="luna$18pogo" />
+                <ComboBox fx:id="serviceNames" promptText="serviceNames" GridPane.columnIndex="15" GridPane.rowIndex="18">
                     <items>
 
                     </items>
@@ -40,7 +40,7 @@
                 </ComboBox>
                 <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" onAction="#connectToDb"
                         mnemonicParsing="false" text="Подключиться к bd"
-                        StackPane.alignment="CENTER_RIGHT" GridPane.columnIndex="5" GridPane.rowIndex="8"/>
+                        StackPane.alignment="CENTER_RIGHT" GridPane.columnIndex="14" GridPane.rowIndex="18"/>
             </GridPane>
         </VBox>
     </StackPane>

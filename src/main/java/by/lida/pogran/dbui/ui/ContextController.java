@@ -2,12 +2,15 @@ package by.lida.pogran.dbui.ui;
 
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.ServiceName;
+import com.jfoenix.controls.JFXDecorator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -34,12 +37,6 @@ public class ContextController {
 
     @FXML
     private Button connectToDb;
-    @FXML
-    private ComboBox<String> roles;
-    @FXML
-    private Label label;
-    @FXML
-    private Tooltip toolTip;
 
     @FXML
     public void initialize() {
@@ -52,9 +49,10 @@ public class ContextController {
     }
 
 
+    @Transactional
     @FXML
     public void connectToDb() {
-        Connection connection = null;
+        Connection connection;
         String hostText = host.getText();
         String networkProtocolText = networkProtocol.getText();
         String portText = port.getText();
@@ -70,43 +68,33 @@ public class ContextController {
         OracleConfigurationProperties.setUser(userText);
 
         try {
-            connection = OracleConfigurationProperties.getInstance().getDataSourceConnection();
-            if (!connection.isClosed()) {
+            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Registration Status:");
-                alert.setContentText("You have successfully connected to db!");
-                alert.showAndWait();
-                //load the fxml need here!
+            if (!connection.isClosed()) {
+                Stage stage = new Stage();
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
                 Parent parent = loader.load();
-                Stage stage = new Stage();
+                String uri = getClass().getResource("/style.css").toExternalForm();
+                JFXDecorator decorator = new JFXDecorator(stage, parent);
+                Scene scene = new Scene(decorator);
                 stage.setTitle("Scrip Window");
-                stage.setScene(new Scene(parent));
+                stage.setScene(scene);
+                scene.getStylesheets().add(uri);
+
+
+                Alert alert = new Alert(Alert.AlertType.NONE);
+                alert.initStyle(StageStyle.TRANSPARENT);
+                alert.setTitle("Registration Status:");
+                alert.setContentText("You have successfully connected to db!");
+                alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+                alert.showAndWait();
+
                 stage.show();
             }
-            connection.commit();
-        } catch (SQLException e) {
-            // Handle exceptions, log errors, and rollback the transaction on failure
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    rollbackException.printStackTrace();
-                }
-            }
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            // Close the connection in a finally block
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException closeException) {
-                    closeException.printStackTrace();
-                }
-            }
         }
     }
 }

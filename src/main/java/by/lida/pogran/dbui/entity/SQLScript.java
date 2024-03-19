@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum SQLScript {
-    SCRIPT_1("users_asoosd", SQLConstants.users_asoosd,"src/main/resources/scripts/users_ASOOSD.sql"),
+    SCRIPT_1("users_asoosd", SQLConstants.users_asoosd,"sss.sql"),
     SCRIPT_2("z1z4", SQLConstants.users_asoosd,"src/main/resources/scripts/#z1-z4.sql"),
     SCRIPT_3("select1",SQLConstants.users_asoosd,""),
     SCRIPT_4("select1", SQLConstants.users_asoosd,""),
