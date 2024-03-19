@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<?import javafx.scene.control.TextArea?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
             prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="by.lida.pogran.dbui.ui.ScriptController">
@@ -14,22 +13,17 @@
     <StackPane stylesheets="/style.css">
         <VBox>
             <GridPane vgap="10" hgap="10">
-                <ComboBox fx:id="scripts" GridPane.columnIndex="18" GridPane.rowIndex="14" promptText="role">
+                <ComboBox fx:id="scripts" GridPane.columnIndex="29" GridPane.rowIndex="17" promptText="role">
                     <items>
                     </items>
                     <value>
                         <String fx:value="users_asoosd"/>
                     </value>
                 </ComboBox>
-                <StackPane GridPane.columnIndex="18" GridPane.rowIndex="15" minWidth="50">
+                <StackPane GridPane.columnIndex="30" GridPane.rowIndex="17" minWidth="50">
                     <Button fx:id="startScript" onAction="#startScript" defaultButton="true"
                             mnemonicParsing="false" text="Выполнить скрипт"/>
                 </StackPane>
-                <TextArea  fx:id="descritpionInput" wrapText="true" text="скрипт для ....users_asoosd!."
-                          editable="false"
-                          GridPane.columnIndex="19"
-                          GridPane.rowIndex="15"
-                />
             </GridPane>
         </VBox>
 

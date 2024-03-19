@@ -37,12 +37,6 @@ public class ContextController {
 
     @FXML
     private Button connectToDb;
-    @FXML
-    private ComboBox<String> roles;
-    @FXML
-    private Label label;
-    @FXML
-    private Tooltip toolTip;
 
     @FXML
     public void initialize() {
@@ -72,10 +66,6 @@ public class ContextController {
         OracleConfigurationProperties.setServiceName(serviceNameText);
         OracleConfigurationProperties.setPassword(passwordText);
         OracleConfigurationProperties.setUser(userText);
-//        CustomDataSourceConfiguration.setUsername("postgres");
-//        CustomDataSourceConfiguration.setPassword("123");
-//        CustomDataSourceConfiguration.setUrl("jdbc:postgresql://localhost:5432/board");
-//        CustomDataSourceConfiguration.setDriverClassName("org.postgresql.Driver");
 
         try {
             connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
@@ -83,7 +73,6 @@ public class ContextController {
             if (!connection.isClosed()) {
                 Stage stage = new Stage();
 
-                //load the fxml need here!
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
                 Parent parent = loader.load();
                 String uri = getClass().getResource("/style.css").toExternalForm();
