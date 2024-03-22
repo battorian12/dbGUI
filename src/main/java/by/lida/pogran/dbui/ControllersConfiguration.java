@@ -1,5 +1,6 @@
 package by.lida.pogran.dbui;
 
+import by.lida.pogran.dbui.ui.AddFileController;
 import by.lida.pogran.dbui.ui.ContextController;
 import by.lida.pogran.dbui.ui.ScriptController;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,11 @@ public class ControllersConfiguration {
         return loadView("fxml/contextForm.fxml");
     }
 
+    @Bean(name = "addFileWindow")
+    public ViewHolder getAddFilePageView() throws IOException {
+        return loadView("fxml/addFile.fxml");
+    }
+
     /**
      * Именно благодаря этому методу мы добавили контроллер в контекст спринга,
      * и заставили его сделать произвести все необходимые инъекции.
@@ -36,6 +42,11 @@ public class ControllersConfiguration {
     @Bean
     public ScriptController scriptController() throws IOException {
         return (ScriptController) getScriptPageView().getController();
+    }
+
+    @Bean
+    public AddFileController addFileController() throws IOException {
+        return (AddFileController) getAddFilePageView().getController();
     }
 
 

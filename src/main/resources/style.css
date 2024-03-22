@@ -61,6 +61,11 @@
     background-color: #1A1A1A;
 }
 
+.menu-bar{
+    -fx-background-color: #3d3d59;
+    background-color: #3d3d59;
+}
+
 /* ComboBox */
 .combo-box{
     -fx-font-size: 13;

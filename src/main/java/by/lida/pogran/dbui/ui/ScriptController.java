@@ -3,9 +3,7 @@ package by.lida.pogran.dbui.ui;
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.SQLScript;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -22,18 +20,19 @@ public class ScriptController {
 
     public Button startScript;
     @FXML
-    private ComboBox<String> scripts;
+    private  ComboBox<String> scripts;
 
 
     @FXML
     public void initialize() {
-        scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
+//        scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
         //scripts.setOnAction(event -> descritpionInput.setText(Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(scripts.getValue())).findFirst().get().getDescription()));
     }
 
     @Transactional
     @FXML
     public void startScript() {
+        scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
         String value = scripts.getValue();
         SQLScript selected = Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(value)).findFirst().get();
 
@@ -43,20 +42,12 @@ public class ScriptController {
             scriptRunner.setDelimiter(";");
             Reader scriptReader = Resources.getResourceAsReader(selected.getPath());
             scriptRunner.runScript(scriptReader);
-
             scriptReader.close();
-//            connection.close();
+//          connection.close();
 
-
-            Alert alert = new Alert(Alert.AlertType.NONE);
-            alert.setTitle("Query Status:");
-            alert.setContentText(selected.getName() + " успешно выполнен\n");
-            alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-            alert.showAndWait();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            new ContextController().createAlert("Query Status:",selected.getName() + " успешно выполнен\n");
+        } catch (IOException| SQLException e) {
+            new ContextController().createAlert("Ошибка выполнения запроса:", e.getMessage());
             throw new RuntimeException(e);
         }
     }
