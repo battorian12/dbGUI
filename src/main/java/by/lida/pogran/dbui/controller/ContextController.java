@@ -60,7 +60,6 @@ public class ContextController {
     public Menu deleteMenu;
     @FXML
     private PasswordField password;
-
     @FXML
     private Button connectToDb;
 
