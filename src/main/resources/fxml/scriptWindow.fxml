@@ -6,7 +6,7 @@
 <?import java.lang.String?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
             prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="by.lida.pogran.dbui.ui.ScriptController">
+            fx:controller="by.lida.pogran.dbui.controller.ScriptController">
     <stylesheets>
         <String fx:value="/style.css"/>
     </stylesheets>

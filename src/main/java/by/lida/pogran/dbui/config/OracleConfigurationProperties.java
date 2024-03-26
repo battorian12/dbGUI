@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @Getter
@@ -48,6 +49,7 @@ public class OracleConfigurationProperties {
             dataSource.setDriverType(DRIVER_TYPE);
             dataSource.setPassword(password);
             dataSource.setUser(user);
+            dataSource.setLoginTimeout(25);
             return dataSource;
         } catch (SQLException e) {
             throw new RuntimeException(e);

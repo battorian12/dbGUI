@@ -19,7 +19,6 @@
     background-color: #2D2D30;
 }
 
-
 /* GridPane */
 .tab-pane-grid{
     /*
@@ -59,6 +58,11 @@
     border-color: #4e4e4e;
     -fx-background-color: #1A1A1A;
     background-color: #1A1A1A;
+}
+
+.menu-bar{
+    -fx-background-color: #3d3d59;
+    background-color: #3d3d59;
 }
 
 /* ComboBox */
