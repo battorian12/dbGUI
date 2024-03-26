@@ -9,7 +9,7 @@ mvn clean package
 ```
 java -jar target/gui-0.0.1.jar
 
-### Файл сценария VBScript (.vbs) (запуск .jar hidden)
+### Файл сценария VBScript (.vbs) (запуск .jar hidden) ###
 ```
 1) Создать файл .vbs -> указав путь до .jar
 Set objShell = WScript.CreateObject("WScript.Shell")
