@@ -1,6 +1,5 @@
 package by.lida.pogran.dbui.controller;
 
-import by.lida.pogran.dbui.Application;
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.ScriptFiles;
 import by.lida.pogran.dbui.entity.ServiceName;
@@ -25,15 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static by.lida.pogran.dbui.constants.ProgrammPath.DATA_PATH;
 
 @Slf4j
 public class ContextController {
@@ -63,12 +63,11 @@ public class ContextController {
 
     @FXML
     private Button connectToDb;
-    ClassLoader classLoader = getClass().getClassLoader();
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         refreshPage.setShape(new Circle(1));
-        refreshPage.setMaxSize(2,2);
+        refreshPage.setMaxSize(2, 2);
         ImageView refreshView = new ImageView(new Image("icons8-refresh-50.png"));
         refreshView.setFitHeight(20);
         refreshView.setPreserveRatio(true);
@@ -79,12 +78,11 @@ public class ContextController {
         connectView.setPreserveRatio(true);
         connectToDb.setGraphic(connectView);
 
-        InputStream oldFileStream = Application.class.getResourceAsStream("/fileData.xml");
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(oldFileStream);
+        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
 
         List<MenuItem> menuItems = new ArrayList<>();
         serviceNames.setOnAction((e) -> {
@@ -105,12 +103,12 @@ public class ContextController {
                         try {
                             scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
                             FileWriter fileWriter; /////TODO записал новый документ
-                            fileWriter = new FileWriter( classLoader.getResource("fileData.xml").getFile());
+                            fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
                             fileWriter.write(xstream.toXML(scriptFiles));
                             fileWriter.close();
 
-                            if (Files.deleteIfExists(Paths.get("src/main/resources/" + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + "успешно удален");
+                            if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
+                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
                                 log.info("файл успешно удален");
                             }
                         } catch (IOException e) {
@@ -141,13 +139,12 @@ public class ContextController {
     }
 
     @FXML
-    public void refreshPage(){
-        InputStream oldFileStream = Application.class.getResourceAsStream("/fileData.xml");
+    public void refreshPage() {
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(oldFileStream);
+        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
         List<MenuItem> menuItems = new ArrayList<>();
         serviceNames.setOnAction((e) -> {
             serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
@@ -166,13 +163,13 @@ public class ContextController {
                     public void handle(ActionEvent event) {
                         try {
                             scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
-                            FileWriter fileWriter; /////TODO записал новый документ
-                            fileWriter = new FileWriter(classLoader.getResource("fileData.xml").getPath());
+                            FileWriter fileWriter;
+                            fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
                             fileWriter.write(xstream.toXML(scriptFiles));
                             fileWriter.close();
 
-                            if (Files.deleteIfExists(Paths.get("src/main/resources/" + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + "успешно удален");
+                            if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
+                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
                                 log.info("файл успешно удален");
                             }
                         } catch (IOException e) {
@@ -180,6 +177,8 @@ public class ContextController {
                         }
                     }
                 }));
+        createAlert(null, "Данные успешно обновлены");
+
     }
 
     @Transactional
@@ -201,9 +200,9 @@ public class ContextController {
         OracleConfigurationProperties.setUser(userText);
 
         try {
-//            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
+            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
 
-            if (true) {
+            if (!connection.isClosed()) {
                 Stage stage = new Stage();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
@@ -227,7 +226,7 @@ public class ContextController {
                 stage.show();
 
             }
-        } catch ( IOException e) {
+        } catch (SQLException | IOException e) {
             createAlert("Ошибка подлючения к бд:", e.getMessage());
             throw new RuntimeException(e);
         }

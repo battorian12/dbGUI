@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+
 @SpringBootApplication
 public class Application extends AbstractJavaFxApplicationSupport {
 
@@ -17,6 +20,10 @@ public class Application extends AbstractJavaFxApplicationSupport {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.setProperty("file.encoding","UTF-8");
+        Field charset = Charset.class.getDeclaredField("defaultCharset");
+        charset.setAccessible(true);
+        charset.set(null,null);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/contextForm.fxml"));
         Parent parent = loader.load();
         String uri = getClass().getResource("/style.css").toExternalForm();
