@@ -19,3 +19,4 @@ Set objShell = WScript.CreateObject("WScript.Shell")<br/>
 objShell.Run "cmd /c start /min /b C:\Users\Administrator.PC03242\Desktop\testGUI\sample-spring-boot-javafx\target\gui-0.0.1.jar", 0, False<br/>
 Set objShell = Nothing<br/>
 >>2) Создать ярлык для запуска и изменения его значка
+![img.png](img.png)
