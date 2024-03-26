@@ -1,5 +1,6 @@
 package by.lida.pogran.dbui.controller;
 
+import by.lida.pogran.dbui.Application;
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.ScriptFiles;
 import by.lida.pogran.dbui.entity.ServiceName;
@@ -21,19 +22,17 @@ import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static by.lida.pogran.dbui.constants.ProgrammPath.DATA_PATH;
 
 @Slf4j
 public class ContextController {
@@ -60,8 +59,10 @@ public class ContextController {
     public Menu deleteMenu;
     @FXML
     private PasswordField password;
+
     @FXML
     private Button connectToDb;
+    ClassLoader classLoader = getClass().getClassLoader();
 
     @FXML
     public void initialize() {
@@ -77,11 +78,12 @@ public class ContextController {
         connectView.setPreserveRatio(true);
         connectToDb.setGraphic(connectView);
 
+        InputStream oldFileStream = getClass().getResourceAsStream("/fileData.xml");
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(oldFileStream);
 
         List<MenuItem> menuItems = new ArrayList<>();
         serviceNames.setOnAction((e) -> {
@@ -101,20 +103,37 @@ public class ContextController {
                     public void handle(ActionEvent event) {
                         try {
                             scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
-                            FileWriter fileWriter; /////TODO записал новый документ
-                            fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
-                            fileWriter.write(xstream.toXML(scriptFiles));
-                            fileWriter.close();
+                            InputStream resourceAsStream = classLoader.getResourceAsStream("fileData.xml");
+                            File tempFile;
+                            tempFile = File.createTempFile("fileData", ".xml");
+                            tempFile.deleteOnExit();
+                            Files.copy(resourceAsStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            appendLineToFile(tempFile, xstream.toXML(scriptFiles));
+                            // Write the modified content back to the JAR
+                            Path jarFilePath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                            try (FileOutputStream fos = new FileOutputStream(jarFilePath.toString() + "/fileData.xml", true)) {
+                                Files.copy(tempFile.toPath(), fos);
+                            }
 
-                            if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
+                            if (Files.deleteIfExists(Paths.get("src/main/resources/" + a.getText()))) {
+                                createAlert(null, "Скрипт" + a.getText() + "успешно удален");
                                 log.info("файл успешно удален");
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 }));
+    }
+
+    private static void appendLineToFile(File file, String line) throws IOException {
+        try (FileWriter writer = new FileWriter(file, true);
+             BufferedWriter bw = new BufferedWriter(writer)) {
+            bw.newLine();
+            bw.write(line);
+        }
     }
 
     @FXML
@@ -143,7 +162,7 @@ public class ContextController {
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(classLoader.getResourceAsStream("fileData.xml"));
         List<MenuItem> menuItems = new ArrayList<>();
         serviceNames.setOnAction((e) -> {
             serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
@@ -162,22 +181,29 @@ public class ContextController {
                     public void handle(ActionEvent event) {
                         try {
                             scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
-                            FileWriter fileWriter;
-                            fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
-                            fileWriter.write(xstream.toXML(scriptFiles));
-                            fileWriter.close();
+                            InputStream resourceAsStream = classLoader.getResourceAsStream("fileData.xml");
+                            File tempFile;
+                            tempFile = File.createTempFile("fileData", ".xml");
+                            tempFile.deleteOnExit();
+                            Files.copy(resourceAsStream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            appendLineToFile(tempFile, xstream.toXML(scriptFiles));
+                            // Write the modified content back to the JAR
+                            Path jarFilePath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                            try (FileOutputStream fos = new FileOutputStream(jarFilePath.toString() + "/fileData.xml", true)) {
+                                Files.copy(tempFile.toPath(), fos);
+                            }
 
-                            if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
+                            if (Files.deleteIfExists(Paths.get("src/main/resources/" + a.getText()))) {
+                                createAlert(null, "Скрипт" + a.getText() + "успешно удален");
                                 log.info("файл успешно удален");
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 }));
-        createAlert(null, "Данные успешно обновлены");
-
     }
 
     @Transactional
@@ -199,9 +225,9 @@ public class ContextController {
         OracleConfigurationProperties.setUser(userText);
 
         try {
-            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
+//            connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
 
-            if (!connection.isClosed()) {
+            if (true) {
                 Stage stage = new Stage();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scriptWindow.fxml"));
@@ -225,7 +251,7 @@ public class ContextController {
                 stage.show();
 
             }
-        } catch (SQLException | IOException e) {
+        } catch (IOException e) {
             createAlert("Ошибка подлючения к бд:", e.getMessage());
             throw new RuntimeException(e);
         }
