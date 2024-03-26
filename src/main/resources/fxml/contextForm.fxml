@@ -1,43 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.ui.ContextController">
+<?import java.lang.String?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+            prefWidth="900.0" stylesheets="/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.ContextController">
     <stylesheets>
-        <String fx:value="/style.css" />
+        <String fx:value="/style.css"/>
     </stylesheets>
-    <StackPane stylesheets="/style.css" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="221.0" AnchorPane.topAnchor="40.0">
+    <StackPane stylesheets="/style.css" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="207.0"
+               AnchorPane.topAnchor="35.0">
         <VBox>
-            <GridPane hgap="20" prefHeight="290.0" prefWidth="546.0" vgap="12">
-                <Label text="Host" GridPane.columnIndex="14" GridPane.rowIndex="12" />
-                <Label text="NetworkProtocol" GridPane.columnIndex="14" GridPane.rowIndex="13" />
-                <Label text="Port" GridPane.columnIndex="14" GridPane.rowIndex="14" />
-                <Label text="ServiceName" GridPane.columnIndex="14" GridPane.rowIndex="15" />
-                <Label text="User" GridPane.columnIndex="14" GridPane.rowIndex="16" />
-                <Label text="Password" GridPane.columnIndex="14" GridPane.rowIndex="17" />
-                <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" text="10.17.3.33" GridPane.columnIndex="15" GridPane.rowIndex="12" />
-                <TextField fx:id="networkProtocol" promptText="Use &quot;networkProtocol&quot; to connect" text="TCP" GridPane.columnIndex="15" GridPane.rowIndex="13" />
-                <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" text="1521" GridPane.columnIndex="15" GridPane.rowIndex="14" />
-                <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD" GridPane.columnIndex="15" GridPane.rowIndex="15" />
-                <TextField fx:id="user" promptText="Enter &quot;User&quot; to connect" text="M_BORDER" GridPane.columnIndex="15" GridPane.rowIndex="16" />
-                <PasswordField fx:id="password" promptText="Enter &quot;Password&quot; to connect" text="luna$18pogo" GridPane.columnIndex="15" GridPane.rowIndex="17" />
-                <ComboBox fx:id="serviceNames" promptText="serviceNames" GridPane.columnIndex="15" GridPane.rowIndex="18">
+            <GridPane hgap="20.0" prefHeight="355.0" prefWidth="565.0" vgap="10.0">
+                <Label text="Host" GridPane.columnIndex="14" GridPane.rowIndex="12"/>
+                <Label text="NetworkProtocol" GridPane.columnIndex="14" GridPane.rowIndex="13"/>
+                <Label text="Port" GridPane.columnIndex="14" GridPane.rowIndex="14"/>
+                <Label text="ServiceName" GridPane.columnIndex="14" GridPane.rowIndex="15"/>
+                <Label text="User" GridPane.columnIndex="14" GridPane.rowIndex="16"/>
+                <Label text="Password" GridPane.columnIndex="14" GridPane.rowIndex="17"/>
+                <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" text="10.17.3.33"
+                           GridPane.columnIndex="15" GridPane.rowIndex="12"/>
+                <TextField fx:id="networkProtocol" promptText="Use &quot;networkProtocol&quot; to connect" text="TCP"
+                           GridPane.columnIndex="15" GridPane.rowIndex="13"/>
+                <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" text="1521"
+                           GridPane.columnIndex="15" GridPane.rowIndex="14"/>
+                <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD"
+                           GridPane.columnIndex="15" GridPane.rowIndex="15"/>
+                <TextField fx:id="user" promptText="Enter &quot;User&quot; to connect" text="M_BORDER"
+                           GridPane.columnIndex="15" GridPane.rowIndex="16"/>
+                <PasswordField fx:id="password" promptText="Enter &quot;Password&quot; to connect" text="luna$18pogo"
+                               GridPane.columnIndex="15" GridPane.rowIndex="17"/>
+                <ComboBox fx:id="serviceNames" promptText="serviceNames" GridPane.columnIndex="15"
+                          GridPane.rowIndex="18">
                     <items>
                     </items>
                     <value>
-                        <String fx:value="ASOOSD" />
+                        <String fx:value="ASOOSD"/>
                     </value>
                 </ComboBox>
-                <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#connectToDb" text="Подключиться к bd" GridPane.columnIndex="14" GridPane.rowIndex="18" StackPane.alignment="CENTER_RIGHT" />
+                <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" mnemonicParsing="false"
+                        onAction="#connectToDb" text="Подключиться к bd" GridPane.columnIndex="14"
+                        GridPane.rowIndex="18" StackPane.alignment="CENTER_RIGHT"/>
             </GridPane>
         </VBox>
     </StackPane>
-    <Button fx:id="createMenu" layoutX="312.0" layoutY="15.0" mnemonicParsing="false" onAction="#createMenu" prefHeight="25.0" prefWidth="158.0" text="Добавить скрипт .SQL" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.topAnchor="30.0" />
-    <MenuBar layoutX="470.0" layoutY="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="25.0" prefWidth="149.0" AnchorPane.topAnchor="35.0">
+    <Button fx:id="createMenu" layoutX="312.0" layoutY="15.0" mnemonicParsing="false" onAction="#createMenu"
+            prefHeight="25.0" prefWidth="158.0" text="Добавить скрипт .SQL" textAlignment="CENTER" textOverrun="CLIP"
+            AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="30.0"/>
+    <MenuBar layoutX="470.0" layoutY="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+             minHeight="-Infinity" prefHeight="25.0" prefWidth="149.0" AnchorPane.leftAnchor="485.0"
+             AnchorPane.topAnchor="35.0">
         <Menu fx:id="deleteMenu" mnemonicParsing="false" onAction="#deleteMenu" text="Удалить скрипт .SQL">
         </Menu>
     </MenuBar>
-   <Button fx:id="refreshPage" layoutX="746.0" layoutY="35.0" mnemonicParsing="false" onAction="#refreshPage" prefHeight="25.0" prefWidth="124.0" text="RefreshPage" />
+    <Button fx:id="refreshPage" layoutX="619.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPage"
+            prefHeight="25.0" prefWidth="102.0" AnchorPane.leftAnchor="630.0" AnchorPane.topAnchor="30.0"/>
+    <ImageView fitHeight="27.0" fitWidth="40.0" layoutX="640.0" layoutY="366.0" pickOnBounds="true"
+               preserveRatio="true">
+        <image>
+            <Image url="icons8-db-50.png"/>
+        </image>
+    </ImageView>
 </AnchorPane>

@@ -1,8 +1,9 @@
-package by.lida.pogran.dbui;
+package by.lida.pogran.dbui.config;
 
-import by.lida.pogran.dbui.ui.AddFileController;
-import by.lida.pogran.dbui.ui.ContextController;
-import by.lida.pogran.dbui.ui.ScriptController;
+import by.lida.pogran.dbui.Application;
+import by.lida.pogran.dbui.controller.AddFileController;
+import by.lida.pogran.dbui.controller.ContextController;
+import by.lida.pogran.dbui.controller.ScriptController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.springframework.context.annotation.Bean;

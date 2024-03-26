@@ -1,0 +1,27 @@
+<scriptFiles>
+  <by.lida.pogran.dbui.entity.ScriptFile>
+    <name>#z1-z4.sql</name>
+    <path>src/main/resources/#z1-z4.sql</path>
+    <description>test</description>
+  </by.lida.pogran.dbui.entity.ScriptFile>
+  <by.lida.pogran.dbui.entity.ScriptFile>
+    <name>duty+plan+razvedka.sql</name>
+    <path>src/main/resources/duty+plan+razvedka.sql</path>
+    <description>test</description>
+  </by.lida.pogran.dbui.entity.ScriptFile>
+  <by.lida.pogran.dbui.entity.ScriptFile>
+    <name>users_ASOOSD.sql</name>
+    <path>src/main/resources/users_ASOOSD.sql</path>
+    <description>test</description>
+  </by.lida.pogran.dbui.entity.ScriptFile>
+  <by.lida.pogran.dbui.entity.ScriptFile>
+    <name>11111111SD.sql</name>
+    <path>src/main/resources/users_ASOOSD.sql</path>
+    <description>test</description>
+  </by.lida.pogran.dbui.entity.ScriptFile>
+  <by.lida.pogran.dbui.entity.ScriptFile>
+    <name>ugyu.sql</name>
+    <path>src/main/resources/ugyu.sql</path>
+    <description></description>
+  </by.lida.pogran.dbui.entity.ScriptFile>
+</scriptFiles>

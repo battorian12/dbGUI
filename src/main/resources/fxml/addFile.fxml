@@ -4,17 +4,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.ui.AddFileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.AddFileController">
     <stylesheets>
         <String fx:value="/style.css" />
     </stylesheets>
     <StackPane stylesheets="/style.css" />
-        <Button fx:id="addFile" defaultButton="true" layoutX="276.0" layoutY="55.0" mnemonicParsing="false" onAction="#addFile" text="Добавить скрипт" />
+        <Button fx:id="addFile" defaultButton="true" layoutX="276.0" layoutY="55.0" mnemonicParsing="false" onAction="#addFile" text="Сохранить скрипт" />
 
              <StackPane layoutX="107.0" layoutY="79.0" minWidth="50" />
-             <TextField fx:id="fileName" layoutX="108.0" layoutY="55.0" prefHeight="25.0" prefWidth="157.0" promptText="Введите название файла" />
+             <TextField fx:id="fileName" layoutX="108.0" layoutY="55.0" prefHeight="25.0" prefWidth="157.0" promptText="Введите название файла" style="-fx-min-height: 30;" />
 
-             <Label layoutX="108.0" layoutY="26.0" prefHeight="25.0" prefWidth="141.0" text="Название Файла .SQL" textFill="WHITE" />
+             <Label fx:id="name" layoutX="108.0" layoutY="26.0" prefHeight="25.0" prefWidth="464.0" text="Название Файла .SQL" textFill="WHITE" />
    <TextArea fx:id="scriptText" layoutX="108.0" layoutY="186.0" prefHeight="335.0" prefWidth="749.0" />
-   <TextArea fx:id="scriptDescription" layoutX="109.0" layoutY="100.0" prefHeight="52.0" prefWidth="277.0" text="Введите описние скрипта" />
+   <TextArea fx:id="scriptDescription" layoutX="109.0" layoutY="116.0" prefHeight="52.0" prefWidth="277.0" promptText="Введите описние скрипта" />
+   <Label layoutX="109.0" layoutY="93.0" prefHeight="17.0" prefWidth="208.0" text="Описание" textFill="WHITE" />
 </AnchorPane>
