@@ -13,10 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import javax.xml.bind.ValidationException;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,7 +74,7 @@ public class AddFileController {
                     .build();
             scriptFiles.getFileList().forEach(a -> {
                 if (a.getName().equals(textFileName)) {
-                    new ContextController().createAlert(null, "Скрипт: " + textFileName + "уже существует");
+//                    new ContextController().createAlert(null, "Скрипт: " + textFileName + "уже существует");
                     throw new RuntimeException("");
                 }
             });

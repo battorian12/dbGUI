@@ -24,9 +24,4 @@
     <path>src/main/resources/jghjgh.sql</path>
     <description></description>
   </by.lida.pogran.dbui.entity.ScriptFile>
-  <by.lida.pogran.dbui.entity.ScriptFile>
-    <name>ugyu.sql</name>
-    <path>src/main/resources/ugyu.sql</path>
-    <description></description>
-  </by.lida.pogran.dbui.entity.ScriptFile>
 </scriptFiles>
