@@ -17,7 +17,7 @@
                     <items>
                     </items>
                     <value>
-                        <String fx:value="users_asoosd"/>
+                        <String fx:value="users_ASOOSD.sql"/>
                     </value>
                 </ComboBox>
                 <StackPane GridPane.columnIndex="30" GridPane.rowIndex="17" minWidth="50">

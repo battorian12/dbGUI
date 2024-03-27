@@ -189,7 +189,7 @@ public class ContextController {
                             finalScriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
                             FileWriter fileWriter;
                             fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
-                            if(finalScriptFiles.getFileList().isEmpty()){
+                            if (finalScriptFiles.getFileList().isEmpty()) {
                                 fileWriter.write(xstream.toXML(null));
                             }
                             fileWriter.write(xstream.toXML(finalScriptFiles));

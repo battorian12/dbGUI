@@ -70,7 +70,6 @@ public class AddFileController {
         }
         String description = scriptDescription.getText();
         scriptText.getText();
-        String pathName = DATA_PATH + textFileName;
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
@@ -82,7 +81,7 @@ public class AddFileController {
         try {
             // получение содержимого старого файла
             ScriptFile scriptFile = ScriptFile.builder()
-                    .path(pathName)
+                    .path(textFileName)
                     .name(textFileName)
                     .description(description)
                     .build();
@@ -109,9 +108,9 @@ public class AddFileController {
             fileWriter.close();
 
 
-            newFile = new File(pathName);
+            newFile = new File(textFileName);
             if (newFile.createNewFile()) {
-                FileOutputStream stream = new FileOutputStream(pathName);
+                FileOutputStream stream = new FileOutputStream(textFileName);
                 stream.write(scriptText.getText().getBytes());
                 stream.flush();
                 stream.close();
