@@ -52,7 +52,6 @@ public class ScriptController {
             scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
         } catch (RuntimeException e) {
             if (scriptFiles == null && !new File(DATA_PATH + DATA_FILE_NAME).exists()) {
-                new File(DATA_PATH).mkdir();
                 Files.createFile(Paths.get(DATA_PATH + DATA_FILE_NAME));
             }
         }
@@ -71,7 +70,7 @@ public class ScriptController {
     public void startScript() {
         scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
         String value = scripts.getValue();
-        ScriptFile scriptFile = scriptFiles.getFileList().stream().filter(a -> a.getName().equals(value)).findFirst().get();
+        ScriptFile scriptFile = scriptFiles.getFileList().stream().filter(a -> a.getName().equalsIgnoreCase(value)).findFirst().get();
 
         try (Connection connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection()) {
 
