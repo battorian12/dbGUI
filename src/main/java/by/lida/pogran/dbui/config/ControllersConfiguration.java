@@ -12,7 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * Класс для создания бинов каждого котроллера.
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Configuration
 public class ControllersConfiguration {
 

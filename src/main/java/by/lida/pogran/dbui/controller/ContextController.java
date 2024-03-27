@@ -33,8 +33,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.lida.pogran.dbui.constants.ProgrammPath.DATA_PATH;
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
 
+/**
+ * Класс описания работы страницы contextForm.fxml.
+ *
+ * @version 1.0
+ * @autor Petrovskiy
+ */
 @Slf4j
 public class ContextController {
 
@@ -63,10 +69,12 @@ public class ContextController {
     @FXML
     private Button connectToDb;
 
+    /*Инициализация страницы fxml*/
     @FXML
     public void initialize() {
         refreshPage.setShape(new Circle(1));
         refreshPage.setMaxSize(2, 2);
+        //Добавление иконки png для кнопки
         ImageView refreshView = new ImageView(new Image("icons8-refresh-50.png"));
         refreshView.setFitHeight(20);
         refreshView.setPreserveRatio(true);
@@ -84,6 +92,7 @@ public class ContextController {
         ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
 
         List<MenuItem> menuItems = new ArrayList<>();
+        //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
             serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
             host.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
@@ -100,8 +109,9 @@ public class ContextController {
                     @Override
                     public void handle(ActionEvent event) {
                         try {
+                            /*Запись нового документа*/
                             scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
-                            FileWriter fileWriter; /////TODO записал новый документ
+                            FileWriter fileWriter;
                             fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
                             fileWriter.write(xstream.toXML(scriptFiles));
                             fileWriter.close();
@@ -117,6 +127,7 @@ public class ContextController {
                 }));
     }
 
+    /*Создание меню с именами сохраненных скриптов*/
     @FXML
     public void createMenu() throws IOException {
         Stage stage = new Stage();
@@ -137,6 +148,7 @@ public class ContextController {
 
     }
 
+    /*Обновление элементов меню для получения актуальных скриптов*/
     @FXML
     public void refreshPage() {
         XStream xstream = new XStream();
@@ -145,6 +157,7 @@ public class ContextController {
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
         ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
         List<MenuItem> menuItems = new ArrayList<>();
+        //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
             serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
             host.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
@@ -179,6 +192,12 @@ public class ContextController {
         createAlert(null, "Данные успешно обновлены");
 
     }
+
+    /*Подключение к базе данных(создание соединения с бд)
+     *
+     * @throws IOException если FXMLLoader не находит нужной fxml страницы
+     * @SQLException если возникает ошибка при работе с базой данных
+     * */
 
     @Transactional
     @FXML
@@ -231,6 +250,11 @@ public class ContextController {
         }
     }
 
+    /*Создание уведомления пользователя
+     *
+     * @param title заголовок уведомления
+     * @param context основной текст
+     */
     public void createAlert(String title, String context) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.initStyle(StageStyle.TRANSPARENT);

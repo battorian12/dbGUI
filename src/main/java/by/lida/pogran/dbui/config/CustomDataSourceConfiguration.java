@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+/**
+ * Конфигурационный класс для описания соединения с любой базой данных
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Configuration
 @NoArgsConstructor
 public class CustomDataSourceConfiguration {

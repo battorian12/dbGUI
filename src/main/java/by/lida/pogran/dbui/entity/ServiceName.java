@@ -2,6 +2,11 @@ package by.lida.pogran.dbui.entity;
 
 import lombok.Getter;
 
+/**
+ * Enum с информацией о кааждой базе данных.
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Getter
 public enum ServiceName {
     ASOOSD ("ASOOSD", "10.17.3.33", "ASOOSD"),

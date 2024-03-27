@@ -21,18 +21,25 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.lida.pogran.dbui.constants.ProgrammPath.DATA_PATH;
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_FILE_NAME;
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
 
+/**
+ * Класс описания работы страницы addFile.xml.
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Slf4j
 public class AddFileController {
 
+    /*Копка для добавления файла*/
     public Button addFile;
     public TextField fileName;
     public TextArea scriptText;
     public TextArea scriptDescription;
     public Label name;
     private String FILE_NAME_REGEX = ".+";
-
+    /*Инициализация страницы fxml*/
     @FXML
     public void initialize() {
         ImageView addView = new ImageView(new Image("icons8-save-80.png"));
@@ -41,6 +48,7 @@ public class AddFileController {
         addFile.setGraphic(addView);
     }
 
+    /*Создание файла .sql и его запись*/
     @FXML
     public void addFile() {
         File newFile = null;
@@ -66,7 +74,8 @@ public class AddFileController {
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
 
         try {
-            ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));// получил старый файл с содержимым
+            // получение содержимого старого файла
+            ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
             ScriptFile scriptFile = ScriptFile.builder()
                     .path(pathName)
                     .name(textFileName)
@@ -80,7 +89,7 @@ public class AddFileController {
             });
 
             scriptFiles.getFileList().add(scriptFile);
-            File file = new File(DATA_PATH + "fileData.xml");
+            File file = new File(DATA_PATH + DATA_FILE_NAME);
             FileWriter fileWriter = new FileWriter(file);
             String xstreamXML = xstream.toXML(scriptFiles);
             StringBuilder stringBuilder = new StringBuilder()
