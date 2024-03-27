@@ -2,7 +2,6 @@ package by.lida.pogran.dbui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -16,7 +15,7 @@ public abstract class AbstractJavaFxApplicationSupport extends Application {
     protected ConfigurableApplicationContext context;
 
     @Override
-    public void init() throws Exception {
+    public void init(){
         context = SpringApplication.run(getClass(), savedArgs);
         context.getAutowireCapableBeanFactory().autowireBean(this);
     }

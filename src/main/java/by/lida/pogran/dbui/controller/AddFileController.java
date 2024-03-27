@@ -1,6 +1,5 @@
 package by.lida.pogran.dbui.controller;
 
-import by.lida.pogran.dbui.Application;
 import by.lida.pogran.dbui.entity.ScriptFile;
 import by.lida.pogran.dbui.entity.ScriptFiles;
 import com.thoughtworks.xstream.XStream;
@@ -22,17 +21,25 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_FILE_NAME;
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
+
+/**
+ * Класс описания работы страницы addFile.xml.
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Slf4j
 public class AddFileController {
 
+    /*Копка для добавления файла*/
     public Button addFile;
     public TextField fileName;
     public TextArea scriptText;
     public TextArea scriptDescription;
     public Label name;
-    private String FILE_NAME_REGEX=".+";
-    ClassLoader classLoader = getClass().getClassLoader();
-
+    private String FILE_NAME_REGEX = ".+";
+    /*Инициализация страницы fxml*/
     @FXML
     public void initialize() {
         ImageView addView = new ImageView(new Image("icons8-save-80.png"));
@@ -41,14 +48,15 @@ public class AddFileController {
         addFile.setGraphic(addView);
     }
 
+    /*Создание файла .sql и его запись*/
     @FXML
-    public void addFile(){
+    public void addFile() {
         File newFile = null;
         String textFileName = fileName.getText() + ".sql";
         Pattern p = Pattern.compile(FILE_NAME_REGEX);
         Matcher m = p.matcher(fileName.getText().trim());
         p.matcher(FILE_NAME_REGEX);
-        if(!m.matches()){
+        if (!m.matches()) {
             try {
                 throw new ValidationException("");
             } catch (ValidationException e) {
@@ -59,14 +67,15 @@ public class AddFileController {
         }
         String description = scriptDescription.getText();
         scriptText.getText();
-        String pathName = "src/main/resources/" + textFileName;
+        String pathName = DATA_PATH + textFileName;
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
 
         try {
-            ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(Application.class.getResourceAsStream("/fileData.xml"));//TODO получил старый файл с содержимым
+            // получение содержимого старого файла
+            ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
             ScriptFile scriptFile = ScriptFile.builder()
                     .path(pathName)
                     .name(textFileName)
@@ -74,15 +83,19 @@ public class AddFileController {
                     .build();
             scriptFiles.getFileList().forEach(a -> {
                 if (a.getName().equals(textFileName)) {
-//                    new ContextController().createAlert(null, "Скрипт: " + textFileName + "уже существует");
+                    new ContextController().createAlert(null, "Скрипт: " + textFileName + " уже существует");
                     throw new RuntimeException("");
                 }
             });
 
             scriptFiles.getFileList().add(scriptFile);
-            File file = new File(classLoader.getResource("fileData.xml").getFile());
-            FileWriter fileWriter = new FileWriter(file);//TODO error
-            fileWriter.write(xstream.toXML(scriptFiles));
+            File file = new File(DATA_PATH + DATA_FILE_NAME);
+            FileWriter fileWriter = new FileWriter(file);
+            String xstreamXML = xstream.toXML(scriptFiles);
+            StringBuilder stringBuilder = new StringBuilder()
+                    .append(xstreamXML)
+                    .insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+            fileWriter.write(stringBuilder.toString());
             fileWriter.close();
             newFile = new File(pathName);
 
@@ -102,7 +115,6 @@ public class AddFileController {
         } catch (IOException e) {
             log.error("Ошибка добавления файла" + newFile.getName());
             throw new RuntimeException(e);
-
         }
     }
 }

@@ -16,5 +16,5 @@ public enum SQLScript {
         this.name = name;
         this.path = path;
         this.description = description;
-    }//дабавить удалить остановить скрипт  | игнорировать ошибки и выводить в отдеьном окне
+    }
 }

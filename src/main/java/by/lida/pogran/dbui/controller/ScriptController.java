@@ -1,11 +1,9 @@
 package by.lida.pogran.dbui.controller;
 
-import by.lida.pogran.dbui.Application;
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
 import by.lida.pogran.dbui.entity.SQLScript;
 import by.lida.pogran.dbui.entity.ScriptFile;
 import by.lida.pogran.dbui.entity.ScriptFiles;
-import by.lida.pogran.dbui.entity.ServiceName;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.fxml.FXML;
@@ -15,49 +13,46 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class ScriptController {
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_FILE_NAME;
+import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
 
+/**
+ * Класс описания работы страницы scriptWindow.fxml.
+ * @autor Petrovskiy
+ * @version 1.0
+ */
+public class ScriptController {
+    /*Копка для запуска скрипта*/
     public Button startScript;
     @FXML
     private  ComboBox<String> scripts;
     ScriptFiles scriptFiles;
-    @Autowired
-    ResourceLoader resourceLoader;
-
+    /*Инициализация страницы fxml*/
     @FXML
     public void initialize(){
-        InputStream resourceAsStream = Application.class.getResourceAsStream("/fileData.xml");
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        scriptFiles = (ScriptFiles) xstream.fromXML(resourceAsStream);
+        scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH+DATA_FILE_NAME));
         scripts.getItems().addAll(scriptFiles.getFileList().stream().map(a->a.getName()).collect(Collectors.toList()));
         ImageView refreshView = new ImageView(new Image("icons8-startup-64.png"));
         refreshView.setFitHeight(20);
         refreshView.setPreserveRatio(true);
         startScript.setGraphic(refreshView);
-//        scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
-        //scripts.setOnAction(event -> descritpionInput.setText(Arrays.stream(SQLScript.values()).filter(a -> a.getName().equals(scripts.getValue())).findFirst().get().getDescription()));
     }
 
+    /*Запуск выбранного .sql скрипта*/
     @Transactional
     @FXML
     public void startScript() {
