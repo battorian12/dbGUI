@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +27,9 @@ import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
 
 /**
  * Класс описания работы страницы addFile.xml.
- * @autor Petrovskiy
+ *
  * @version 1.0
+ * @autor Petrovskiy
  */
 @Slf4j
 public class AddFileController {
@@ -39,6 +41,7 @@ public class AddFileController {
     public TextArea scriptDescription;
     public Label name;
     private String FILE_NAME_REGEX = ".+";
+
     /*Инициализация страницы fxml*/
     @FXML
     public void initialize() {
@@ -72,23 +75,30 @@ public class AddFileController {
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-
+        ScriptFiles scriptFiles = null;
+        if (new File(DATA_PATH + DATA_FILE_NAME).length() != 0) {
+            scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
+        }
         try {
             // получение содержимого старого файла
-            ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
             ScriptFile scriptFile = ScriptFile.builder()
                     .path(pathName)
                     .name(textFileName)
                     .description(description)
                     .build();
-            scriptFiles.getFileList().forEach(a -> {
-                if (a.getName().equals(textFileName)) {
-                    new ContextController().createAlert(null, "Скрипт: " + textFileName + " уже существует");
-                    throw new RuntimeException("");
-                }
-            });
+            if (scriptFiles != null) {
+                scriptFiles.getFileList().forEach(a -> {
+                    if (a.getName().equals(textFileName)) {
+                        new ContextController().createAlert(null, "Скрипт: " + textFileName + " уже существует");
+                        throw new RuntimeException("");
+                    }
+                });
+                scriptFiles.getFileList().add(scriptFile);
+            } else {
+                scriptFiles = new ScriptFiles();
+                scriptFiles.setFileList(Collections.singletonList(scriptFile));
+            }
 
-            scriptFiles.getFileList().add(scriptFile);
             File file = new File(DATA_PATH + DATA_FILE_NAME);
             FileWriter fileWriter = new FileWriter(file);
             String xstreamXML = xstream.toXML(scriptFiles);
@@ -97,9 +107,9 @@ public class AddFileController {
                     .insert(0, "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
+
+
             newFile = new File(pathName);
-
-
             if (newFile.createNewFile()) {
                 FileOutputStream stream = new FileOutputStream(pathName);
                 stream.write(scriptText.getText().getBytes());
