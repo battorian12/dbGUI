@@ -89,8 +89,11 @@ public class ContextController {
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
-
+        File file = new File(DATA_PATH + "fileData.xml");
+        ScriptFiles scriptFiles = null;
+        if (file.length() != 0) {
+            scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+        }
         List<MenuItem> menuItems = new ArrayList<>();
         //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
@@ -99,21 +102,24 @@ public class ContextController {
         });
         serviceNames.getItems().addAll(Arrays.stream(ServiceName.values()).map(ServiceName::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
-        scriptFiles.getFileList().forEach(a -> {
-            MenuItem menuItem = new MenuItem(a.getName());
-            menuItems.add(menuItem);
-        });
-        deleteMenu.getItems().setAll(menuItems);
+        if (scriptFiles != null && scriptFiles.getFileList() != null) {
+            scriptFiles.getFileList().forEach(a -> {
+                MenuItem menuItem = new MenuItem(a.getName());
+                menuItems.add(menuItem);
+            });
+            deleteMenu.getItems().setAll(menuItems);
+        }
+        ScriptFiles finalScriptFiles = scriptFiles;
         deleteMenu.getItems().forEach(a ->
                 a.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         try {
                             /*Запись нового документа*/
-                            scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
+                            finalScriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
                             FileWriter fileWriter;
                             fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
-                            fileWriter.write(xstream.toXML(scriptFiles));
+                            fileWriter.write(xstream.toXML(finalScriptFiles));
                             fileWriter.close();
 
                             if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
@@ -151,11 +157,14 @@ public class ContextController {
     /*Обновление элементов меню для получения актуальных скриптов*/
     @FXML
     public void refreshPage() {
+        ScriptFiles scriptFiles = null;
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        ScriptFiles scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+        if (new File(DATA_PATH + "fileData.xml").length() != 0) {
+            scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+        }
         List<MenuItem> menuItems = new ArrayList<>();
         //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
@@ -164,20 +173,26 @@ public class ContextController {
         });
         serviceNames.getItems().addAll(Arrays.stream(ServiceName.values()).map(ServiceName::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
-        scriptFiles.getFileList().forEach(a -> {
-            MenuItem menuItem = new MenuItem(a.getName());
-            menuItems.add(menuItem);
-        });
+        if (scriptFiles != null) {
+            scriptFiles.getFileList().forEach(a -> {
+                MenuItem menuItem = new MenuItem(a.getName());
+                menuItems.add(menuItem);
+            });
+        }
         deleteMenu.getItems().setAll(menuItems);
+        ScriptFiles finalScriptFiles = scriptFiles;
         deleteMenu.getItems().forEach(a ->
                 a.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         try {
-                            scriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
+                            finalScriptFiles.getFileList().removeIf(b -> b.getName().equals(a.getText()));
                             FileWriter fileWriter;
                             fileWriter = new FileWriter(DATA_PATH + "fileData.xml");
-                            fileWriter.write(xstream.toXML(scriptFiles));
+                            if(finalScriptFiles.getFileList().isEmpty()){
+                                fileWriter.write(xstream.toXML(null));
+                            }
+                            fileWriter.write(xstream.toXML(finalScriptFiles));
                             fileWriter.close();
 
                             if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
@@ -190,7 +205,6 @@ public class ContextController {
                     }
                 }));
         createAlert(null, "Данные успешно обновлены");
-
     }
 
     /*Подключение к базе данных(создание соединения с бд)
@@ -198,7 +212,6 @@ public class ContextController {
      * @throws IOException если FXMLLoader не находит нужной fxml страницы
      * @SQLException если возникает ошибка при работе с базой данных
      * */
-
     @Transactional
     @FXML
     public void connectToDb() {
