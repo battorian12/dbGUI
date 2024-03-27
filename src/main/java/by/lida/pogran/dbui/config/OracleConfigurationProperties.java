@@ -8,8 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * Конфигурационный класс для описания соединения с базой днных Oracle
+ * @autor Petrovskiy
+ * @version 1.0
+ */
 @Configuration
 @Getter
 @Setter
