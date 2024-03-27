@@ -54,7 +54,6 @@ public class AddFileController {
     /*Создание файла .sql и его запись*/
     @FXML
     public void addFile() {
-        File newFile = null;
         String textFileName = fileName.getText() + ".sql";
         Pattern p = Pattern.compile(FILE_NAME_REGEX);
         Matcher m = p.matcher(fileName.getText().trim());
@@ -69,7 +68,8 @@ public class AddFileController {
             }
         }
         String description = scriptDescription.getText();
-        scriptText.getText();
+        String scriptTextField = scriptText.getText();
+        String scriptFiledName = fileName.getText();
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
@@ -107,13 +107,13 @@ public class AddFileController {
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
 
+            File newFile = new File(DATA_PATH + textFileName);
 
-            newFile = new File(textFileName);
-            if (newFile.createNewFile()) {
-                FileOutputStream stream = new FileOutputStream(textFileName);
-                stream.write(scriptText.getText().getBytes());
-                stream.flush();
-                stream.close();
+            if (new File(DATA_PATH+textFileName).createNewFile()) {
+                FileOutputStream newFileWriter = new FileOutputStream(newFile);
+                newFileWriter.write(scriptTextField.getBytes());
+                newFileWriter.close();
+
                 new ContextController().createAlert(null, "Файл " + textFileName + " успешно создан");
                 name.setText("Название файла .SQL");
                 fileName.setStyle("-fx-border-color: #1A1A1A; -fx-min-height: 30");
@@ -122,7 +122,7 @@ public class AddFileController {
                 log.info("File not created: " + newFile.getName());
             }
         } catch (IOException e) {
-            log.error("Ошибка добавления файла" + newFile.getName());
+            log.error("Ошибка добавления файла" + scriptFiledName);
             throw new RuntimeException(e);
         }
     }

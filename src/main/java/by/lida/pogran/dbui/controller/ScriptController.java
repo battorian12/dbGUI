@@ -16,6 +16,7 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -71,14 +72,12 @@ public class ScriptController {
         scripts.getItems().addAll(Arrays.stream(SQLScript.values()).map(SQLScript::getName).collect(Collectors.toList()));
         String value = scripts.getValue();
         ScriptFile scriptFile = scriptFiles.getFileList().stream().filter(a -> a.getName().equalsIgnoreCase(value)).findFirst().get();
-
         try (Connection connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection()) {
 
             ScriptRunner scriptRunner = new ScriptRunner(connection);
             scriptRunner.setDelimiter(";");
-            Reader scriptReader = Resources.getResourceAsReader(scriptFile.getPath());
-            scriptRunner.runScript(scriptReader);
-            scriptReader.close();
+            scriptRunner.setStopOnError(false);
+            scriptRunner.runScript(new FileReader(DATA_PATH+scriptFile.getPath()));
 
             new ContextController().createAlert("Query Status:", scriptFile.getName() + " успешно выполнен\n");
         } catch (IOException | SQLException e) {
