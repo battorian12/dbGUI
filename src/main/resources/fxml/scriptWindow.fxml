@@ -1,31 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
-            prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="by.lida.pogran.dbui.controller.ScriptController">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.ScriptController">
     <stylesheets>
-        <String fx:value="/style.css"/>
+        <String fx:value="/style.css" />
     </stylesheets>
-    <StackPane stylesheets="/style.css">
+    <StackPane layoutY="-83.0" prefHeight="238.0" prefWidth="558.0" stylesheets="/style.css" AnchorPane.rightAnchor="342.0">
         <VBox>
-            <GridPane vgap="10" hgap="10">
-                <ComboBox fx:id="scripts" GridPane.columnIndex="29" GridPane.rowIndex="17" promptText="role">
+            <GridPane hgap="10" vgap="10">
+                <ComboBox fx:id="scripts" maxHeight="-Infinity" maxWidth="156.0" prefHeight="25.0" prefWidth="200.0" promptText="script.sql" style="-fx-max-width: 40;" GridPane.columnIndex="29" GridPane.rowIndex="17">
                     <items>
                     </items>
                     <value>
-                        <String fx:value="users_ASOOSD.sql"/>
                     </value>
                 </ComboBox>
-                <StackPane GridPane.columnIndex="30" GridPane.rowIndex="17" minWidth="50">
-                    <Button fx:id="startScript" onAction="#startScript" defaultButton="true"
-                            mnemonicParsing="false" text="Выполнить скрипт"/>
-                </StackPane>
+                <StackPane minWidth="100.0" GridPane.columnIndex="30" GridPane.rowIndex="17" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
             </GridPane>
+         <StackPane.margin>
+            <Insets top="-30.0" />
+         </StackPane.margin>
         </VBox>
 
     </StackPane>
+   <TextArea fx:id="descriptionText" editable="false" layoutX="285.0" layoutY="159.0" prefHeight="259.0" prefWidth="508.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="159.0">
+      <cursor>
+         <Cursor fx:constant="DEFAULT" />
+      </cursor></TextArea>
+   <CheckBox fx:id="stopOnError" layoutX="285.0" layoutY="99.0" mnemonicParsing="false" selected="false" textFill="WHITE" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="99.0" />
+   <Label fx:id="description" layoutX="285.0" layoutY="137.0" text="Описание" textFill="WHITE" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="137.0" />
+        <Button fx:id="startScript" defaultButton="true" layoutX="453.0" layoutY="57.0" mnemonicParsing="false" onAction="#startScript" prefHeight="25.0" prefWidth="168.0" text="Выполнить скрипт" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="57.0" />
+    <Label fx:id="stopOnErrorDescription" layoutX="364.0" layoutY="102.0" text="Останавить выполнение при возникновении ошибки" textFill="WHITE" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="102.0" />
 </AnchorPane>
