@@ -259,7 +259,7 @@ public class ContextController {
             }
         } catch (SQLException | IOException e) {
             createAlert("Ошибка подлючения к бд:", e.getMessage());
-            throw new RuntimeException(e);
+            log.info(e.getMessage());
         }
     }
 

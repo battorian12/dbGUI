@@ -1,19 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <scriptFiles>
   <by.lida.pogran.dbui.entity.ScriptFile>
     <name>#z1-z4.sql</name>
     <path>#z1-z4.sql</path>
-    <description>test</description>
+    <description>Общий скрипт</description>
   </by.lida.pogran.dbui.entity.ScriptFile>
   <by.lida.pogran.dbui.entity.ScriptFile>
     <name>users_ASOOSD.sql</name>
     <path>users_ASOOSD.sql</path>
-    <description>test</description>
+    <description>Синхронизация пользователей</description>
   </by.lida.pogran.dbui.entity.ScriptFile>
   <by.lida.pogran.dbui.entity.ScriptFile>
     <name>duty+plan+razvedka.sql</name>
     <path>duty+plan+razvedka.sql</path>
-    <description>test</description>
+    <description>Все планы</description>
   </by.lida.pogran.dbui.entity.ScriptFile>
   <by.lida.pogran.dbui.entity.ScriptFile>
     <name>11111111SD.sql</name>
