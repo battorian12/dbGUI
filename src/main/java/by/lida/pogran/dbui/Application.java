@@ -4,10 +4,13 @@ import com.jfoenix.controls.JFXDecorator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.swing.*;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
@@ -20,6 +23,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Image imageIcon = new Image("icons8-my-talking-tom-96.png");
         System.setProperty("file.encoding","UTF-8");
         Field charset = Charset.class.getDeclaredField("defaultCharset");
         charset.setAccessible(true);
@@ -31,6 +35,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
         Scene scene = new Scene(decorator);
         stage.setTitle("Scrip Window");
         stage.setScene(scene);
+        stage.getIcons().add(imageIcon);
         scene.getStylesheets().add(uri) ;
         stage.setTitle(windowTitle);
         stage.setResizable(true);

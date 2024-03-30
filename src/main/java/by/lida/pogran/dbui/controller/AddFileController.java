@@ -2,6 +2,7 @@ package by.lida.pogran.dbui.controller;
 
 import by.lida.pogran.dbui.entity.ScriptFile;
 import by.lida.pogran.dbui.entity.ScriptFiles;
+import by.lida.pogran.dbui.exception.SystemException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import javafx.fxml.FXML;
@@ -89,7 +90,7 @@ public class AddFileController {
                 scriptFiles.getFileList().forEach(a -> {
                     if (a.getName().equals(textFileName)) {
                         new ContextController().createAlert(null, "Скрипт: " + textFileName + " уже существует");
-                        throw new RuntimeException("");
+                        throw new SystemException("Скрипт уже существует");
                     }
                 });
                 scriptFiles.getFileList().add(scriptFile);
@@ -119,11 +120,10 @@ public class AddFileController {
                 fileName.setStyle("-fx-border-color: #1A1A1A; -fx-min-height: 30");
                 log.info("File created: " + newFile.getName());
             } else {
-                log.info("File not created: " + newFile.getName());
+                log.info("Файл не создан: " + newFile.getName());
             }
-        } catch (IOException e) {
-            log.error("Ошибка добавления файла" + scriptFiledName);
-            throw new RuntimeException(e);
+        } catch (IOException | SystemException e) {
+            log.error("Ошибка добавления файла: " + e.getMessage());
         }
     }
 }
