@@ -35,6 +35,11 @@ public class ControllersConfiguration {
         return loadView("fxml/addFile.fxml");
     }
 
+    @Bean(name = "updateConnectDataWindow")
+    public ViewHolder getUpdConDataView() throws IOException {
+        return loadView("fxml/updateConnectData.fxml");
+    }
+
     /**
      * Именно благодаря этому методу мы добавили контроллер в контекст спринга,
      * и заставили его сделать произвести все необходимые инъекции.
@@ -53,8 +58,6 @@ public class ControllersConfiguration {
     public AddFileController addFileController() throws IOException {
         return (AddFileController) getAddFilePageView().getController();
     }
-
-
 
     /**
      * Самый обыкновенный способ использовать FXML загрузчик.

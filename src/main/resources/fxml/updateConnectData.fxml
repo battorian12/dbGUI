@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.UpdateConnectDataController">
+    <stylesheets>
+        <String fx:value="/style.css" />
+    </stylesheets>
+    <StackPane stylesheets="/style.css" />
+    <Button fx:id="updateConfig" defaultButton="true" layoutX="276.0" layoutY="55.0" mnemonicParsing="false" onAction="#updateConnectData" text="Обновить данные для подключения" />
+    <TextField fx:id="name" layoutX="108.0" layoutY="55.0" prefWidth="157.0" promptText="name" style="-fx-min-height: 30;" />
+    <TextField fx:id="serviceName" layoutX="-142.0" layoutY="350.0" prefHeight="25.0" prefWidth="157.0" promptText="serviceName" AnchorPane.rightAnchor="629.0" AnchorPane.topAnchor="95.0" />
+    <TextField fx:id="host" layoutX="118.0" layoutY="105.0" prefHeight="25.0" prefWidth="170.0" promptText="host" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="628.0" AnchorPane.topAnchor="130.0" />
+    <Label layoutX="-50.0" layoutY="212.0" text="Host" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="132.0" />
+    <Label layoutX="82.0" layoutY="142.0" text="Name" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="61.0" />
+    <Label layoutX="92.0" layoutY="152.0" text="ServiceName" AnchorPane.rightAnchor="801.0" AnchorPane.topAnchor="100.0" />
+<!--   <ProgressIndicator layoutX="-88.0" layoutY="173.0" AnchorPane.rightAnchor="491.0" AnchorPane.topAnchor="342.0" />-->
+    <!--   <ProgressIndicator AnchorPane.rightAnchor="488.0" AnchorPane.topAnchor="310.0" />-->
+</AnchorPane>

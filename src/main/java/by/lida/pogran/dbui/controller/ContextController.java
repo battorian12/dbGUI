@@ -1,8 +1,9 @@
 package by.lida.pogran.dbui.controller;
 
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
+import by.lida.pogran.dbui.entity.ConnectData;
+import by.lida.pogran.dbui.entity.ConnectDataLst;
 import by.lida.pogran.dbui.entity.ScriptFiles;
-import by.lida.pogran.dbui.entity.ServiceName;
 import com.jfoenix.controls.JFXDecorator;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -19,21 +20,21 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static by.lida.pogran.dbui.constants.ProgramPath.DATA_PATH;
+import static by.lida.pogran.dbui.constants.ProgramPath.*;
 
 /**
  * Класс описания работы страницы contextForm.fxml.
@@ -57,6 +58,8 @@ public class ContextController {
     @FXML
     public TextField fileName;
     @FXML
+    public TextField name;
+    @FXML
     public ComboBox<String> serviceNames;
     @FXML
     public Button createMenu;
@@ -64,10 +67,19 @@ public class ContextController {
     public Button refreshPage;
     @FXML
     public Menu deleteMenu;
+    public CheckBox savePassword;
+    public ProgressIndicator processBar;
     @FXML
     private PasswordField password;
     @FXML
     private Button connectToDb;
+    @FXML
+    public Button updateConnectData;
+    private Base64.Encoder encoder = Base64.getEncoder();
+    private Base64.Decoder decoder = Base64.getDecoder();
+    private final String NETWORK_PROTOCOL = "TCP";
+    private final String PORT = "1521";
+    private final String USER = "M_BORDER";
 
     /*Инициализация страницы fxml*/
     @FXML
@@ -85,22 +97,56 @@ public class ContextController {
         connectView.setPreserveRatio(true);
         connectToDb.setGraphic(connectView);
 
+        //fileData получение данные из xml в java объект
         XStream xstream = new XStream();
         xstream.addPermission(AnyTypePermission.ANY);
         xstream.alias("scriptFiles", ScriptFiles.class);
         xstream.addImplicitCollection(ScriptFiles.class, "fileList");
-        File file = new File(DATA_PATH + "fileData.xml");
+        File file = new File(DATA_PATH + DATA_FILE_NAME);
         ScriptFiles scriptFiles = null;
+
+        //connectData
+        XStream xstream1 = new XStream();
+        xstream1.addPermission(AnyTypePermission.ANY);
+        xstream1.alias("connectDataLst", ConnectDataLst.class);
+        xstream1.addImplicitCollection(ConnectDataLst.class, "connectDataList");
+        File file1 = new File(DATA_PATH + CONNECT_DATA_FILE_NAME);
+        ConnectDataLst connectDataLst;
+
+
         if (file.length() != 0) {
-            scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
+            scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + DATA_FILE_NAME));
+        }
+        if (file1.length() != 0) {
+            connectDataLst = (ConnectDataLst) xstream1.fromXML(new File(DATA_PATH + CONNECT_DATA_FILE_NAME));
+        } else {
+            connectDataLst = null;
         }
         List<MenuItem> menuItems = new ArrayList<>();
+        String decodedString;
+        try {
+            File password = new File(DATA_PATH + "06c4ba86-c468-49cb-ad5f.txt");
+            String passw = FileUtils.readFileToString(password, StandardCharsets.UTF_8);
+
+            byte[] decodedBytes = decoder.decode(passw);
+            decodedString = new String(decodedBytes);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.networkProtocol.setText(NETWORK_PROTOCOL);
+        this.port.setText(PORT);
+        this.user.setText(USER);
+        this.password.setText(decodedString);
         //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
-            serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
-            host.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
+            serviceName.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
+            host.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
+            name.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getName());
         });
-        serviceNames.getItems().addAll(Arrays.stream(ServiceName.values()).map(ServiceName::getName).collect(Collectors.toList()));
+        //Добавление имен сервисов в dropdown-menu с сортировкой
+        serviceNames.getItems().addAll(connectDataLst.getConnectDataList().stream().sorted(Comparator.comparing(ConnectData::getName)).map(ConnectData::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
         if (scriptFiles != null && scriptFiles.getFileList() != null) {
             scriptFiles.getFileList().forEach(a -> {
@@ -165,13 +211,28 @@ public class ContextController {
         if (new File(DATA_PATH + "fileData.xml").length() != 0) {
             scriptFiles = (ScriptFiles) xstream.fromXML(new File(DATA_PATH + "fileData.xml"));
         }
+        //connectData
+        XStream xstream1 = new XStream();
+        xstream1.addPermission(AnyTypePermission.ANY);
+        xstream1.alias("connectDataLst", ConnectDataLst.class);
+        xstream1.addImplicitCollection(ConnectDataLst.class, "connectDataList");
+        File file1 = new File(DATA_PATH + CONNECT_DATA_FILE_NAME);
+        ConnectDataLst connectDataLst;
+
+        if (file1.length() != 0) {
+            connectDataLst = (ConnectDataLst) xstream1.fromXML(new File(DATA_PATH + CONNECT_DATA_FILE_NAME));
+        } else {
+            connectDataLst = null;
+        }
+
         List<MenuItem> menuItems = new ArrayList<>();
         //Заполнение текстовых полей в соответствии с выбранным пунктом меню
         serviceNames.setOnAction((e) -> {
-            serviceName.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
-            host.setText(Arrays.stream(ServiceName.values()).filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
+            serviceName.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getServiceName());
+            host.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
+            name.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getName());
         });
-        serviceNames.getItems().addAll(Arrays.stream(ServiceName.values()).map(ServiceName::getName).collect(Collectors.toList()));
+        serviceNames.getItems().setAll(connectDataLst.getConnectDataList().stream().map(ConnectData::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
         if (scriptFiles != null) {
             scriptFiles.getFileList().forEach(a -> {
@@ -179,6 +240,7 @@ public class ContextController {
                 menuItems.add(menuItem);
             });
         }
+
         deleteMenu.getItems().setAll(menuItems);
         ScriptFiles finalScriptFiles = scriptFiles;
         deleteMenu.getItems().forEach(a ->
@@ -231,8 +293,14 @@ public class ContextController {
         OracleConfigurationProperties.setUser(userText);
 
         try {
+            //save password
+            if (savePassword.isSelected()) {
+                FileWriter fileWriter = new FileWriter(DATA_PATH + "06c4ba86-c468-49cb-ad5f.txt");
+                String encodedString = encoder.encodeToString(passwordText.getBytes(StandardCharsets.UTF_8));
+                fileWriter.write(encodedString);
+                fileWriter.close();
+            }
             connection = OracleConfigurationProperties.getInstance().getDataSource().getConnection();
-
             if (!connection.isClosed()) {
                 Stage stage = new Stage();
 
@@ -253,7 +321,6 @@ public class ContextController {
                 alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
                 alert.getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
                 alert.showAndWait();
-
                 stage.show();
 
             }
@@ -279,4 +346,30 @@ public class ContextController {
     }
 
 
+    public void updateConnectData() throws IOException {
+        String serviceNameText = serviceName.getText();
+        String hostName = host.getText();
+        String nameText = name.getText();
+
+        if (serviceNameText == null || serviceNameText.trim().isEmpty()) {
+            createAlert("", "Выберите конфигурацию для обновления");
+            log.info("Конфигурация для обновления не выбрана");
+        } else {
+            ConnectData instance = ConnectData.getInstance();
+            instance.setName(nameText);
+            instance.setHost(hostName);
+            instance.setServiceName(serviceNameText);
+            Stage stage = new Stage();
+            String uri = getClass().getResource("/style.css").toExternalForm();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/updateConnectData.fxml"));
+            Parent parent = fxmlLoader.load();
+            fxmlLoader.setLocation(getClass().getResource("/fxml/updateConnectData.fxml"));
+            JFXDecorator decorator = new JFXDecorator(stage, parent);
+            Scene scene;
+            scene = new Scene(decorator);
+            scene.getStylesheets().add(uri);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
 }

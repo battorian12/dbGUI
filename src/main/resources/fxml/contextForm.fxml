@@ -3,9 +3,10 @@
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" stylesheets="/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.ContextController">
     <stylesheets>
         <String fx:value="/style.css" />
@@ -19,24 +20,27 @@
                 <Label text="ServiceName" GridPane.columnIndex="14" GridPane.rowIndex="15" />
                 <Label text="User" GridPane.columnIndex="14" GridPane.rowIndex="16" />
                 <Label text="Password" GridPane.columnIndex="14" GridPane.rowIndex="17" />
-                <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" text="10.17.3.33" GridPane.columnIndex="15" GridPane.rowIndex="12" />
-                <TextField fx:id="networkProtocol" promptText="Use &quot;networkProtocol&quot; to connect" text="TCP" GridPane.columnIndex="15" GridPane.rowIndex="13" />
-                <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" text="1521" GridPane.columnIndex="15" GridPane.rowIndex="14" />
-                <TextField fx:id="serviceName" promptText="Use &quot;serviceName&quot; to connect" text="ASOOSD" GridPane.columnIndex="15" GridPane.rowIndex="15" />
-                <TextField fx:id="user" promptText="Enter &quot;User&quot; to connect" text="M_BORDER" GridPane.columnIndex="15" GridPane.rowIndex="16" />
-                <PasswordField fx:id="password" promptText="Enter &quot;Password&quot; to connect" text="luna$18pogo" GridPane.columnIndex="15" GridPane.rowIndex="17" />
-                <ComboBox fx:id="serviceNames" promptText="serviceNames" GridPane.columnIndex="15" GridPane.rowIndex="18">
+                <TextField fx:id="host" promptText="Enter &quot;host&quot; to connect" GridPane.columnIndex="15" GridPane.rowIndex="12" />
+                <TextField fx:id="networkProtocol" promptText="Enter &quot;networkProtocol&quot; to connect" GridPane.columnIndex="15" GridPane.rowIndex="13" />
+                <TextField fx:id="port" promptText="Enter &quot;port&quot; to connect" GridPane.columnIndex="15" GridPane.rowIndex="14" />
+                <TextField fx:id="serviceName" promptText="Enter &quot;serviceName&quot; to connect" GridPane.columnIndex="15" GridPane.rowIndex="15" />
+                <TextField fx:id="user" promptText="Enter &quot;User&quot; to connect" GridPane.columnIndex="15" GridPane.rowIndex="16" />
+                <PasswordField fx:id="password" promptText="Enter &quot;Password&quot; to connect" text="enter password" GridPane.columnIndex="15" GridPane.rowIndex="17" />
+                <CheckBox fx:id="savePassword" layoutX="255.0" layoutY="99.0" mnemonicParsing="false" selected="true" style="-fx-min-width: 90 " text="Запомнить" textFill="WHITE" GridPane.columnIndex="16" GridPane.rowIndex="17" />
+                <Button fx:id="updateConnectData" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#updateConnectData" text="Update config" GridPane.columnIndex="15" GridPane.rowIndex="19" StackPane.alignment="CENTER_RIGHT" />
+                <ComboBox fx:id="serviceNames" promptText="serviceNames" style="-fx-min-width: 152" GridPane.columnIndex="15" GridPane.rowIndex="18">
                     <items>
                     </items>
                     <value>
-                        <String fx:value="ASOOSD" />
+                        <String fx:value="Choose config " />
                     </value>
                 </ComboBox>
-                <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#connectToDb" text="Подключиться к bd" GridPane.columnIndex="14" GridPane.rowIndex="18" StackPane.alignment="CENTER_RIGHT" />
+                <Button fx:id="connectToDb" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#connectToDb" text="Connect bd" GridPane.columnIndex="14" GridPane.rowIndex="18" StackPane.alignment="CENTER_RIGHT" />
             <VBox.margin>
                <Insets left="-35.0" />
             </VBox.margin>
             </GridPane>
+            <TextField fx:id="name" visible="false" />
         </VBox>
     </StackPane>
     <Button fx:id="createMenu" layoutX="312.0" layoutY="15.0" mnemonicParsing="false" onAction="#createMenu" prefHeight="25.0" prefWidth="158.0" text="Добавить скрипт .SQL" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="293.0" AnchorPane.topAnchor="30.0" />
@@ -44,10 +48,10 @@
         <Menu fx:id="deleteMenu" mnemonicParsing="false" onAction="#deleteMenu" text="Удалить скрипт .SQL">
         </Menu>
     </MenuBar>
-    <Button fx:id="refreshPage" layoutX="619.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPage" prefHeight="25.0" prefWidth="102.0" AnchorPane.leftAnchor="596.0" AnchorPane.topAnchor="30.0" />
-    <ImageView fitHeight="27.0" fitWidth="40.0" layoutX="605.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-            <Image url="icons8-db-50.png"/>
-        </image>
+    <Button fx:id="refreshPage" layoutX="619.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPage" prefHeight="28.0" prefWidth="110.0" AnchorPane.leftAnchor="795.0" AnchorPane.topAnchor="250.0" />
+   <Label layoutX="-48.0" layoutY="229.0" text="Обновить данные" textFill="WHITE" AnchorPane.leftAnchor="672.0" AnchorPane.topAnchor="255.0" />
+    <ImageView fitHeight="23.0" fitWidth="38.0" layoutX="530.0" layoutY="369.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="icons8-db-50.png"/>
     </ImageView>
 </AnchorPane>

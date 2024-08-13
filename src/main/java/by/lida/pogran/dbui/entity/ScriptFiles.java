@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 public class ScriptFiles {
-    /** Списко файлов для xml иерархии(XStream) */
+    /** Список файлов для xml иерархии(XStream) */
     @XStreamImplicit(itemFieldName="file")
     private List<ScriptFile>fileList;
 }

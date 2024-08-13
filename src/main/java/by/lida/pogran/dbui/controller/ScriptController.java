@@ -1,7 +1,6 @@
 package by.lida.pogran.dbui.controller;
 
 import by.lida.pogran.dbui.config.OracleConfigurationProperties;
-import by.lida.pogran.dbui.entity.SQLScript;
 import by.lida.pogran.dbui.entity.ScriptFile;
 import by.lida.pogran.dbui.entity.ScriptFiles;
 import com.thoughtworks.xstream.XStream;
@@ -23,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
