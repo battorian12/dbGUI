@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.swing.*;
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
@@ -23,7 +21,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Image imageIcon = new Image("icons8-my-talking-tom-96.png");
+        Image imageIcon = new Image("2730368_animal_character_inkcontober_psyduck_screech_icon.png");
         System.setProperty("file.encoding","UTF-8");
         Field charset = Charset.class.getDeclaredField("defaultCharset");
         charset.setAccessible(true);

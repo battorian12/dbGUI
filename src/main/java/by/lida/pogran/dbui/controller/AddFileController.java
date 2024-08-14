@@ -65,6 +65,7 @@ public class AddFileController {
             } catch (ValidationException e) {
                 name.setText("Название файла обязательно для заполнения *");
                 fileName.setStyle("-fx-border-color: #ea0808; -fx-min-height: 30");
+                log.info("Название файла обязательно для заполнения *");
                 throw new RuntimeException(e);
             }
         }
@@ -118,7 +119,7 @@ public class AddFileController {
                 new ContextController().createAlert(null, "Файл " + textFileName + " успешно создан");
                 name.setText("Название файла .SQL");
                 fileName.setStyle("-fx-border-color: #1A1A1A; -fx-min-height: 30");
-                log.info("File created: " + newFile.getName());
+                log.info("Файл создан: " + newFile.getName());
             } else {
                 log.info("Файл не создан: " + newFile.getName());
             }
