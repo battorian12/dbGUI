@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.CheckScriptController">
+    <stylesheets>
+        <String fx:value="/style.css" />
+    </stylesheets>
+    <TextArea fx:id="descriptionText" editable="false" layoutX="285.0" layoutY="159.0" prefHeight="535.0" prefWidth="793.0" style="-fx-font-size: 15;" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="20.0">
+        <cursor>
+            <Cursor fx:constant="DEFAULT" />
+        </cursor></TextArea>
+</AnchorPane>

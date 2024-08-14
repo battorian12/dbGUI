@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
-
+<?import java.lang.String?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.ScriptController">
     <stylesheets>
         <String fx:value="/style.css" />
@@ -33,6 +32,7 @@
       </cursor></TextArea>
    <CheckBox fx:id="stopOnError" layoutX="285.0" layoutY="99.0" mnemonicParsing="false" selected="false" textFill="WHITE" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="99.0" />
    <Label fx:id="description" layoutX="285.0" layoutY="137.0" text="Описание" textFill="WHITE" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="137.0" />
-        <Button fx:id="startScript" defaultButton="true" layoutX="453.0" layoutY="57.0" mnemonicParsing="false" onAction="#startScript" prefHeight="25.0" prefWidth="168.0" text="Выполнить скрипт" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="57.0" />
+        <Button fx:id="startScript" defaultButton="true" layoutX="453.0" layoutY="57.0" mnemonicParsing="false" onAction="#startScript" prefHeight="25.0" prefWidth="160.0" text="Выполнить" AnchorPane.rightAnchor="309.0" AnchorPane.topAnchor="57.0" />
     <Label fx:id="stopOnErrorDescription" layoutX="364.0" layoutY="102.0" text="Остановить выполнение при возникновении ошибки" textFill="WHITE" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="102.0" />
+   <Button fx:id="checkScript" onAction="#checkScript" layoutX="463.0" layoutY="67.0" prefHeight="47.0" prefWidth="150.0" style="-fx-wrap-text: true" text="Проверить скрипт перед выполнением!" AnchorPane.rightAnchor="630.0" AnchorPane.topAnchor="57.0" />
 </AnchorPane>

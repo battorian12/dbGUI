@@ -68,6 +68,7 @@ public class UpdateConnectDataController {
                 } catch (ValidationException e) {
                     serviceName.setText("ServiceName обязательно для заполнения *");
                     serviceName.setStyle("-fx-border-color: #ea0808; -fx-min-height: 30");
+                    log.info("ServiceName обязательно для заполнения");
                     throw new RuntimeException(e);
                 }
             }
@@ -77,6 +78,7 @@ public class UpdateConnectDataController {
                 } catch (ValidationException e) {
                     name.setText("Name обязательно для заполнения *");
                     name.setStyle("-fx-border-color: #ea0808; -fx-min-height: 30");
+                    log.info("Name обязательно для заполнения");
                     throw new RuntimeException(e);
                 }
             }
@@ -99,8 +101,9 @@ public class UpdateConnectDataController {
             //проверка уникальности по имени
             if (connectDataLst.getConnectDataList() != null) {
                 connectDataLst.getConnectDataList().forEach(a -> {
-                    if (a.getName().equals(name.getText())) {
+                    if (a.getName().equals(name.getText()) && a.getHost().equals(host.getText()) && a.getServiceName().equals(serviceName.getText())) {
                         new ContextController().createAlert(null, "Конфигурация: " + name.getText() + " уже существует");
+                        log.info("Конфигурация уже существует");
                         throw new SystemException("Конфигурация уже существует");
                     }
                 });
@@ -113,15 +116,13 @@ public class UpdateConnectDataController {
             ConnectData.getInstance().setHost(host.getText());
             connectDataList.add(ConnectData.getInstance());
 
-//            Files.deleteIfExists(Paths.get(DATA_PATH + CONNECT_DATA_FILE_NAME));
-
             FileWriter fileWriter = new FileWriter(DATA_PATH + "connectData.xml");
             String xml = xstream1.toXML(connectDataList);
             String save = xml.replaceAll("<list>", "<connectDataLst>").replaceAll("</list>", "</connectDataLst>");
             fileWriter.write(save);
             fileWriter.close();
             createAlert(null, "Конфигурация " + ConnectData.getInstance().toString() + " успешно обновлена");
-            log.info("конфигурация успешно обновлена");
+            log.info("Конфигурация " + ConnectData.getInstance().toString() + " успешно обновлена");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

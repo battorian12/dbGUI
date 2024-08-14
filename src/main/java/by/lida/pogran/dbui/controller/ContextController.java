@@ -31,7 +31,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static by.lida.pogran.dbui.constants.ProgramPath.*;
@@ -68,7 +71,6 @@ public class ContextController {
     @FXML
     public Menu deleteMenu;
     public CheckBox savePassword;
-    public ProgressIndicator processBar;
     @FXML
     private PasswordField password;
     @FXML
@@ -232,7 +234,7 @@ public class ContextController {
             host.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
             name.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getName());
         });
-        serviceNames.getItems().setAll(connectDataLst.getConnectDataList().stream().map(ConnectData::getName).collect(Collectors.toList()));
+        serviceNames.getItems().addAll(connectDataLst.getConnectDataList().stream().sorted(Comparator.comparing(ConnectData::getName)).map(ConnectData::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
         if (scriptFiles != null) {
             scriptFiles.getFileList().forEach(a -> {
@@ -259,13 +261,14 @@ public class ContextController {
 
                             if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
                                 createAlert(null, "Скрипт" + a.getText() + " успешно удален");
-                                log.info("файл успешно удален");
+                                log.info("Файл успешно удален " + a.getText());
                             }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 }));
+        log.info("Данные успешно обновлены");
         createAlert(null, "Данные успешно обновлены");
     }
 
@@ -326,7 +329,7 @@ public class ContextController {
             }
         } catch (SQLException | IOException e) {
             createAlert("Ошибка подлючения к бд:", e.getMessage());
-            log.info(e.getMessage());
+            log.error("Ошибка подлючения к бд: " + e.getMessage());
         }
     }
 
@@ -353,7 +356,7 @@ public class ContextController {
 
         if (serviceNameText == null || serviceNameText.trim().isEmpty()) {
             createAlert("", "Выберите конфигурацию для обновления");
-            log.info("Конфигурация для обновления не выбрана");
+            log.warn("Конфигурация для обновления не выбрана");
         } else {
             ConnectData instance = ConnectData.getInstance();
             instance.setName(nameText);

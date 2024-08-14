@@ -18,4 +18,5 @@
    <TextArea fx:id="scriptText" layoutX="108.0" layoutY="186.0" prefHeight="335.0" prefWidth="749.0" />
    <TextArea fx:id="scriptDescription" layoutX="109.0" layoutY="116.0" prefHeight="52.0" prefWidth="277.0" promptText="Введите описание скрипта" />
    <Label layoutX="109.0" layoutY="93.0" prefHeight="17.0" prefWidth="208.0" text="Описание" textFill="WHITE" />
+   <Label layoutX="117.0" layoutY="168.0" prefHeight="17.0" prefWidth="208.0" text=".SQL" textFill="WHITE" AnchorPane.rightAnchor="575.0" AnchorPane.topAnchor="168.0" />
 </AnchorPane>
