@@ -50,6 +50,7 @@
     </MenuBar>
     <Button fx:id="refreshPage" layoutX="619.0" layoutY="23.0" mnemonicParsing="false" onAction="#refreshPage" prefHeight="28.0" prefWidth="110.0" AnchorPane.leftAnchor="795.0" AnchorPane.topAnchor="250.0" />
    <Label layoutX="-48.0" layoutY="229.0" text="Обновить данные" textFill="WHITE" AnchorPane.leftAnchor="672.0" AnchorPane.topAnchor="255.0" />
+   <Button layoutX="-60.0" fx:id="addConfig"   onAction="#addConfig" layoutY="413.0" mnemonicParsing="false" text="Add" AnchorPane.rightAnchor="315.0" AnchorPane.topAnchor="405.0" />
     <ImageView fitHeight="23.0" fitWidth="38.0" layoutX="530.0" layoutY="369.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="icons8-db-50.png"/>

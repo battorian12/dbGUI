@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Класс проверки содержимого скрипта.
+ * Класс проверки содержимого конфигурации.
  *
  * @version 1.0
  * @autor Petrovskiy
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckScriptController {
+public class CheckConfigController {
 
     public TextArea descriptionText;
 

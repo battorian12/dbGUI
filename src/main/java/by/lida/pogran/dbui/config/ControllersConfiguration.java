@@ -35,9 +35,14 @@ public class ControllersConfiguration {
         return loadView("fxml/addFile.fxml");
     }
 
-    @Bean(name = "checkScriptWindow")
+    @Bean(name = "checkConfigWindow")
     public ViewHolder checkScriptPageView() throws IOException {
         return loadView("fxml/scriptWindow.fxml");
+    }
+
+    @Bean(name = "addConfigWindow")
+    public ViewHolder addConfigWindow() throws IOException {
+        return loadView("fxml/addNewConfig.fxml");
     }
 
     @Bean(name = "updateConnectDataWindow")

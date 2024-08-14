@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.UpdateConnectDataController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.lida.pogran.dbui.controller.AddConfigController">
     <stylesheets>
         <String fx:value="/style.css" />
     </stylesheets>
     <StackPane stylesheets="/style.css" />
-    <Button fx:id="updateConfig" defaultButton="true" layoutX="276.0" layoutY="55.0" mnemonicParsing="false" onAction="#updateConnectData" text="Обновить данные для подключения" />
+    <Button fx:id="saveConfig" defaultButton="true" layoutX="276.0" layoutY="55.0" mnemonicParsing="false" onAction="#saveConfig" text="Сохранить данные для подключения" />
     <TextField fx:id="name" layoutX="108.0" layoutY="55.0" prefWidth="157.0" promptText="name" style="-fx-min-height: 30;" />
     <TextField fx:id="serviceName" layoutX="-142.0" layoutY="350.0" prefHeight="25.0" prefWidth="157.0" promptText="serviceName" AnchorPane.rightAnchor="629.0" AnchorPane.topAnchor="95.0" />
     <TextField fx:id="host" layoutX="118.0" layoutY="105.0" prefHeight="25.0" prefWidth="170.0" promptText="host" AnchorPane.leftAnchor="109.0" AnchorPane.rightAnchor="628.0" AnchorPane.topAnchor="130.0" />

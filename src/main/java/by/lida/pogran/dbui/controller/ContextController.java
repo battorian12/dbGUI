@@ -71,6 +71,7 @@ public class ContextController {
     @FXML
     public Menu deleteMenu;
     public CheckBox savePassword;
+    public Button addConfig;
     @FXML
     private PasswordField password;
     @FXML
@@ -171,7 +172,7 @@ public class ContextController {
                             fileWriter.close();
 
                             if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
+                                createAlert(null, "Скрипт " + a.getText() + " успешно удален");
                                 log.info("файл успешно удален");
                             }
                         } catch (IOException e) {
@@ -234,7 +235,7 @@ public class ContextController {
             host.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getHost());
             name.setText(connectDataLst.getConnectDataList().stream().filter(a -> a.getName().equals(serviceNames.getValue())).findFirst().get().getName());
         });
-        serviceNames.getItems().addAll(connectDataLst.getConnectDataList().stream().sorted(Comparator.comparing(ConnectData::getName)).map(ConnectData::getName).collect(Collectors.toList()));
+        serviceNames.getItems().setAll(connectDataLst.getConnectDataList().stream().sorted(Comparator.comparing(ConnectData::getName)).map(ConnectData::getName).collect(Collectors.toList()));
         connectToDb.getStyleClass().add("button");
         if (scriptFiles != null) {
             scriptFiles.getFileList().forEach(a -> {
@@ -260,7 +261,7 @@ public class ContextController {
                             fileWriter.close();
 
                             if (Files.deleteIfExists(Paths.get(DATA_PATH + a.getText()))) {
-                                createAlert(null, "Скрипт" + a.getText() + " успешно удален");
+                                createAlert(null, "Скрипт " + a.getText() + " успешно удален");
                                 log.info("Файл успешно удален " + a.getText());
                             }
                         } catch (IOException e) {
@@ -373,6 +374,24 @@ public class ContextController {
             scene.getStylesheets().add(uri);
             stage.setScene(scene);
             stage.show();
+        }
+    }
+
+    @FXML
+    public void addConfig(ActionEvent event) {
+        try {
+            Stage stage = new Stage();
+            String uri = getClass().getResource("/style.css").toExternalForm();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/addNewConfig.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/fxml/addNewConfig.fxml"));
+            Parent parent = fxmlLoader.load();
+            JFXDecorator decorator = new JFXDecorator(stage, parent);
+            Scene scene = new Scene(decorator);
+            scene.getStylesheets().add(uri);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
